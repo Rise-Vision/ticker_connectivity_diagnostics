@@ -20,7 +20,6 @@
      "udp-send-to:*:19302"
    ]},
    "clipboardWrite",
-   "experimental",
    "http://*.google.com/*",
    "https://*.google.com/*"
   ],
