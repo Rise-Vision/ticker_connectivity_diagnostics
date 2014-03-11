@@ -14,6 +14,7 @@ goog.require('ccd.Test');
 goog.require('ccd.TestId');
 goog.require('ccd.TestResult');
 goog.require('ccd.TestVerdict');
+goog.require('ccd.flags');
 
 
 
@@ -52,7 +53,7 @@ ccd.ChromeVersionTest.prototype.parent =
  * @private {number}
  * @const
  */
-ccd.ChromeVersionTest.SMALLEST_PERMITTED_CHROME_VERSION_NUM_ = 27;
+ccd.ChromeVersionTest.SMALLEST_PERMITTED_CHROME_VERSION_NUM_ = 29;
 
 
 /**
@@ -84,14 +85,9 @@ ccd.ChromeVersionTest.prototype.analyzeResults = function() {
 };
 
 
-/**
- * Return the browser's user-agent.
- * This is implemented for testing purposes.
- * @return {string} Browser's user-agent.
- * @private
- */
-ccd.ChromeVersionTest.prototype.getUserAgent_ = function() {
-  return navigator.userAgent;
+/** @override */
+ccd.ChromeVersionTest.prototype.canRun = function() {
+  return (/** @type {boolean} */ (ccd.flags.RUN_TEST_CHROME_VERSION));
 };
 
 
@@ -115,6 +111,17 @@ ccd.ChromeVersionTest.prototype.runTest = function(callbackFnc) {
 
   this.analyzeResults();
   this.executeCallback();
+};
+
+
+/**
+ * Return the browser's user-agent.
+ * This is implemented for testing purposes.
+ * @return {string} Browser's user-agent.
+ * @private
+ */
+ccd.ChromeVersionTest.prototype.getUserAgent_ = function() {
+  return navigator.userAgent;
 };
 
 

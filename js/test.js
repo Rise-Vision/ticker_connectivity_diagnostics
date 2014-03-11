@@ -48,6 +48,15 @@ ccd.Test.prototype.executeCallback = function() {
 
 
 /**
+ * Checks to see if this test can run in the current environment.
+ * @return {boolean} True if this test can run, false otherwise.
+ */
+ccd.Test.prototype.canRun = function() {
+  return true;
+};
+
+
+/**
  * Executes the test. Overridden in subclasses to actually execute the test.
  * @param {function(ccd.TestResult)} callbackFnc
  *   Function to execute upon completion of test.

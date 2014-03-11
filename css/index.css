@@ -1,9 +1,19 @@
+/* Copyright 2013 The Chromium Authors. All rights reserved.
+
+   Use of this source code is governed by a BSD-style license that can be
+   found in the LICENSE file.
+*/
+
 body {
   margin: 0px;
   padding: 0px;
   border: 0px;
   font-family: 'Helvetica Neue Medium', HelveticaNeue-Medium, Helvetica, sans-serif;
   font-size: initial;
+}
+
+body.no-focus-outline * {
+  outline: none;
 }
 
 #ccd-app {
@@ -150,7 +160,8 @@ body {
   line-height: 200px;
 }
 
-.spinner-progress-00 {
+.spinner-progress-00,
+.spinner-progress-0 {
   background-image: -webkit-image-set(
    url('../img/100/loader_0.png') 1x,
    url('../img/200/loader_0.png') 2x);
@@ -216,6 +227,7 @@ body {
   max-width: 600px;
   margin: 0 auto;
   padding-bottom: 3em;
+  margin-top: 15%;
 }
 
 .test-results-contents-frame {
@@ -242,16 +254,8 @@ body {
   margin: 1em -1em 1em -1em;
 }
 
-#issues-found-title {
-  margin-top: 15%;
-}
-
-#passing-tests-title {
+.test-result-title {
   margin-top: 4em;
-}
-
-#issues-found-title,
-#passing-tests-title {
   background: white;
   color: rgba(0,0,0,0.7);
   font-weight: bold;
@@ -264,7 +268,7 @@ body {
   padding: 1em;
 }
 
-.issue-found-title-contents-cell {
+.test-title-contents-cell {
   display:table-cell;
   vertical-align: middle;
   padding: 0.4em;
@@ -311,7 +315,7 @@ body {
 .test-subtitle,
 .next-steps-container,
 .show-logs-link {
-  padding: 1em;
+  margin: 1em;
   font-size: 80%;
   font-family: 'Helvetica Neue', Helvetica, sans-serif;
 }

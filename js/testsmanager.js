@@ -13,11 +13,14 @@ goog.provide('ccd.TestsManager');
 
 goog.require('ccd.CaptivePortalDnsTest');
 goog.require('ccd.CaptivePortalHttpTest');
-goog.require('ccd.ChromeInternetDisconnectedTest');
-goog.require('ccd.ChromeOSInternetDisconnectedTest');
+goog.require('ccd.ChromeOSSignalStrengthTest');
 goog.require('ccd.ChromeOSVersionTest');
 goog.require('ccd.ChromeVersionTest');
+goog.require('ccd.HttpFirewallTest');
 goog.require('ccd.HttpLatencyTest');
+goog.require('ccd.HttpsFirewallTest');
+goog.require('ccd.InternetDisconnectedTest');
+goog.require('ccd.PingGatewayTest');
 goog.require('ccd.ResolverLatencyTest');
 goog.require('ccd.ResolverPresentTest');
 goog.require('ccd.TcpFirewallTest');
@@ -25,6 +28,7 @@ goog.require('ccd.StunTest');
 goog.require('ccd.TestId');
 goog.require('ccd.TestResults');
 goog.require('ccd.metrics');
+goog.require('ccd.service.FeedbackService');
 goog.require('ccd.util');
 
 
@@ -76,7 +80,47 @@ ccd.TestsManager = function(finishedCallbackFnc, progressCallbackFnc) {
    * @private {number}
    */
   this.timeLastTestBegan_ = 0;
+
+
+  /**
+   * @private {ccd.service.FeedbackService}
+   */
+  this.feedbackService_ = ccd.service.FeedbackService.getInstance();
 };
+
+
+/**
+ * Maps test IDs to test constructors.
+ * @private {!Object.<!ccd.TestId, !function(new: ccd.Test)>}
+ * @const
+ */
+ccd.TestsManager.TEST_MAP_ = { };
+ccd.TestsManager.TEST_MAP_[ccd.TestId.INTERNET_DISCONNECTED] =
+    ccd.InternetDisconnectedTest;
+ccd.TestsManager.TEST_MAP_[ccd.TestId.CHROME_VERSION] =
+    ccd.ChromeVersionTest;
+ccd.TestsManager.TEST_MAP_[ccd.TestId.CHROMEOS_VERSION] =
+    ccd.ChromeOSVersionTest;
+ccd.TestsManager.TEST_MAP_[ccd.TestId.DNS_RESOLVER_PRESENT] =
+    ccd.ResolverPresentTest;
+ccd.TestsManager.TEST_MAP_[ccd.TestId.CAPTIVE_PORTAL_DNS] =
+    ccd.CaptivePortalDnsTest;
+ccd.TestsManager.TEST_MAP_[ccd.TestId.CAPTIVE_PORTAL_HTTP] =
+    ccd.CaptivePortalHttpTest;
+ccd.TestsManager.TEST_MAP_[ccd.TestId.FIREWALL_80] =
+    ccd.HttpFirewallTest;
+ccd.TestsManager.TEST_MAP_[ccd.TestId.FIREWALL_443] =
+    ccd.HttpsFirewallTest;
+ccd.TestsManager.TEST_MAP_[ccd.TestId.RESOLVER_LATENCY] =
+    ccd.ResolverLatencyTest;
+ccd.TestsManager.TEST_MAP_[ccd.TestId.HTTP_LATENCY] =
+    ccd.HttpLatencyTest;
+ccd.TestsManager.TEST_MAP_[ccd.TestId.NIC_SIGNAL_STRENGTH] =
+    ccd.ChromeOSSignalStrengthTest;
+ccd.TestsManager.TEST_MAP_[ccd.TestId.PING_GATEWAY] =
+    ccd.PingGatewayTest;
+ccd.TestsManager.TEST_MAP_[ccd.TestId.CONNECTIFY_STUN] =
+    ccd.StunTest;
 
 
 /**
@@ -92,18 +136,24 @@ ccd.TestsManager.prototype.testCallback = function(testResult) {
   var millisecondsTaken = currMilliseconds - this.timeLastTestBegan_;
   ccd.metrics.recordTestTimeTaken(testResult.getTestId(), millisecondsTaken);
 
+  this.feedbackService_.saveTestResult(testResult.getTestId(),
+                                       testResult.getTestVerdict(),
+                                       millisecondsTaken);
+
   this.testResults_.addTestResult(testResult);
-  if (testResult.getTestId() == ccd.TestId.INTERNET_DISCONNECTED &&
-      testResult.getTestVerdict() == ccd.TestVerdict.PROBLEM) {
-    // Since the internet is disconnected, do not bother running
-    //   other tests.
+  if ((testResult.getTestId() === ccd.TestId.INTERNET_DISCONNECTED &&
+      testResult.getTestVerdict() === ccd.TestVerdict.PROBLEM) ||
+      (testResult.getTestId() === ccd.TestId.DNS_RESOLVER_PRESENT &&
+      testResult.getTestVerdict() === ccd.TestVerdict.PROBLEM)) {
+    // Since the internet is disconnected or there is no DNS resolver,
+    //   do not bother running other tests.
     this.testsCanceled_ = true;
     this.testsCompletedCallbackFnc_(this.testResults_);
   }
 
   this.nextTestToRun_++;
   if (!this.testsCanceled_) {
-    this.runTests();
+    this.runRemainingTests();
   }
 };
 
@@ -111,7 +161,7 @@ ccd.TestsManager.prototype.testCallback = function(testResult) {
 /**
  * Run a series of tests to pinpoint connectivity issues.
  */
-ccd.TestsManager.prototype.runTests = function() {
+ccd.TestsManager.prototype.runRemainingTests = function() {
   this.testsCanceled_ = false;
 
   // Compute the percent of the tests that have been run and pass this
@@ -122,70 +172,20 @@ ccd.TestsManager.prototype.runTests = function() {
   this.progressCallbackFnc_(percentComplete);
 
   var boundCallback = this.testCallback.bind(this);
-  this.timeLastTestBegan_ = (new Date).getTime();
-
-  switch (this.nextTestToRun_) {
-    case ccd.TestId.INTERNET_DISCONNECTED:
-      if (ccd.util.isChromeOS() &&
-          chrome.networkingPrivate != undefined) {
-        var chromeOSDisconnectedTest =
-            new ccd.ChromeOSInternetDisconnectedTest();
-        chromeOSDisconnectedTest.runTest(boundCallback);
-      } else {
-        var chromeDisconnectedTest =
-            new ccd.ChromeInternetDisconnectedTest();
-        chromeDisconnectedTest.runTest(boundCallback);
-      }
-      break;
-    case ccd.TestId.CHROME_VERSION:
-      var chromeVersionTest = new ccd.ChromeVersionTest();
-      chromeVersionTest.runTest(boundCallback);
-      break;
-    case ccd.TestId.CHROMEOS_VERSION:
-      if (ccd.util.isChromeOS()) {
-        var chromeOSVersionTest = new ccd.ChromeOSVersionTest();
-        chromeOSVersionTest.runTest(boundCallback);
-      } else {
-        this.nextTestToRun_++;
-        this.runTests();
-      }
-      break;
-    case ccd.TestId.DNS_RESOLVER_PRESENT:
-      var resolverPresentTest = new ccd.ResolverPresentTest();
-      resolverPresentTest.runTest(boundCallback);
-      break;
-    case ccd.TestId.CAPTIVE_PORTAL_DNS:
-      var captivePortalDnsTest = new ccd.CaptivePortalDnsTest();
-      captivePortalDnsTest.runTest(boundCallback);
-      break;
-    case ccd.TestId.CAPTIVE_PORTAL_HTTP:
-      var captivePortalHttpTest = new ccd.CaptivePortalHttpTest();
-      captivePortalHttpTest.runTest(boundCallback);
-      break;
-    case ccd.TestId.FIREWALL_80:
-      var firewallTest = new ccd.TcpFirewallTest(80, ccd.TestId.FIREWALL_80);
-      firewallTest.runTest(boundCallback);
-      break;
-    case ccd.TestId.FIREWALL_443:
-      var firewallTest = new ccd.TcpFirewallTest(443, ccd.TestId.FIREWALL_443);
-      firewallTest.runTest(boundCallback);
-      break;
-    case ccd.TestId.RESOLVER_LATENCY:
-      var resolverLatencyTest = new ccd.ResolverLatencyTest();
-      resolverLatencyTest.runTest(boundCallback);
-      break;
-    case ccd.TestId.HTTP_LATENCY:
-      var httpLatencyTest = new ccd.HttpLatencyTest();
-      httpLatencyTest.runTest(boundCallback);
-      break;
-    case ccd.TestId.CONNECTIFY_STUN:
-      console.log("About to run STUN test!");
-      var stunTest = new ccd.StunTest();
-      stunTest.runTest(boundCallback);
-      break;
-    default:
-      // All tests run, invoke callback function.
-      this.testsCompletedCallbackFnc_(this.testResults_);
+  if (this.nextTestToRun_ >= Object.keys(ccd.TestId).length ||
+      this.nextTestToRun_ >= Object.keys(ccd.TestsManager.TEST_MAP_).length) {
+    this.testsCompletedCallbackFnc_(this.testResults_);
+    return;
+  } else {
+    var testConstructor = ccd.TestsManager.TEST_MAP_[this.nextTestToRun_];
+    var test = new testConstructor();
+    if (test.canRun()) {
+      this.timeLastTestBegan_ = (new Date).getTime();
+      test.runTest(boundCallback);
+    } else {
+      this.nextTestToRun_++;
+      this.runRemainingTests();
+    }
   }
 };
 

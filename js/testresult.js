@@ -46,13 +46,6 @@ ccd.TestResult = function(testId) {
   this.testVerdict_ = ccd.TestVerdict.TEST_NOT_RUN;
 
   /**
-   * The next steps for the user of the application to take.
-   * @type {string}
-   * @private
-   */
-  this.nextSteps_ = '';
-
-  /**
    * The subtitle of the test result.
    * @type {!string}
    * @private
@@ -87,15 +80,6 @@ ccd.TestResult.prototype.setSubtitle = function(subtitle) {
 
 
 /**
- * Set the next steps to take in reading the test result.
- * @param {string} nextSteps Next steps to address test issue.
- */
-ccd.TestResult.prototype.setNextSteps = function(nextSteps) {
-  this.nextSteps_ = nextSteps;
-};
-
-
-/**
  * Return the title of the test result.
  * @return {string} Test title.
  */
@@ -110,15 +94,6 @@ ccd.TestResult.prototype.getTitle = function() {
  */
 ccd.TestResult.prototype.getSubtitle = function() {
   return this.subtitle_;
-};
-
-
-/**
- * Return the next steps of the test result.
- * @return {string} Next steps to address test issue.
- */
-ccd.TestResult.prototype.getNextSteps = function() {
-  return this.nextSteps_;
 };
 
 

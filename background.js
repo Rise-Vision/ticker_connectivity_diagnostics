@@ -15,7 +15,7 @@
 function launchChromeConnectivityDebuggerApp(opt_querystringFlags) {
   var width = 676;
   var height = 600;
-  var url = 'index.html?initAppWidth=' + width + '&initAppHeight=' + height;
+  var url = 'index.html?INIT_APP_WIDTH=' + width + '&INIT_APP_HEIGHT=' + height;
   if (opt_querystringFlags) {
     url += '&' + opt_querystringFlags;
   }
@@ -37,7 +37,7 @@ function launchChromeConnectivityDebuggerApp(opt_querystringFlags) {
  * @see http://developer.chrome.com/trunk/apps/app.window.html
  */
 chrome.app.runtime.onLaunched.addListener(function() {
-  launchChromeConnectivityDebuggerApp('launchSource=webstore');
+  launchChromeConnectivityDebuggerApp('LAUNCH_SOURCE=Webstore');
 });
 
 
@@ -47,7 +47,7 @@ chrome.app.runtime.onLaunched.addListener(function() {
 chrome.runtime.onMessageExternal.addListener(
     function(request, sender, sendResponse) {
       if (request && request['command'] == 'launch') {
-        launchChromeConnectivityDebuggerApp('launchSource=offlineCrOS');
+        launchChromeConnectivityDebuggerApp('LAUNCH_SOURCE=OfflineCrOS');
       }
     }
 );

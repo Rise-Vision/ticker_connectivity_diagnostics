@@ -83,6 +83,12 @@ ccd.ResolverLatencyTest.RESOLVER_LATENCY_NO_PROBLEM_MSEC_ = 400;
 ccd.ResolverLatencyTest.RESOLVER_LATENCY_POTENTIAL_PROBLEM_MSEC_ = 500;
 
 
+/** @override */
+ccd.ResolverLatencyTest.prototype.canRun = function() {
+  return ccd.util.dnsApiAvailable();
+};
+
+
 /**
  * @override
  */
@@ -128,7 +134,7 @@ ccd.ResolverLatencyTest.prototype.analyzeResults = function() {
 /**
  * Process a DNS query response.
  * See #chromium/src/chrome/common/extensions/api/experimental_dns.idl
- * @param {chrome.dns.ResolveCallbackResolveInfo} resultInfo
+ * @param {chrome.experimental.dns.ResolveCallbackResolveInfo} resultInfo
  *   DNS query result info.
  * @private
  */
@@ -171,9 +177,7 @@ ccd.ResolverLatencyTest.prototype.resolveHostname_ = function() {
       chrome.i18n.getMessage('resolverlatencytest_beginning_resolution') +
       this.numTestsCompleted_ + ' ' + hostname);
 
-  if (typeof(chrome.dns) !== 'undefined') {
-    chrome.dns.resolve(hostname, this.resolvedCallback_.bind(this));
-  }
+  ccd.util.getDnsApi().resolve(hostname, this.resolvedCallback_.bind(this));
 };
 
 

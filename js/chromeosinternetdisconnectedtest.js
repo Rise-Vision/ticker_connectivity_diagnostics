@@ -15,6 +15,7 @@ goog.require('ccd.Test');
 goog.require('ccd.TestId');
 goog.require('ccd.TestResult');
 goog.require('ccd.TestVerdict');
+goog.require('ccd.util');
 
 
 
@@ -77,6 +78,13 @@ ccd.ChromeOSInternetDisconnectedTest.prototype.runTest = function(callbackFnc) {
 };
 
 
+/** @override */
+ccd.ChromeOSInternetDisconnectedTest.prototype.canRun = function() {
+  return (ccd.util.isChromeOS() &&
+          chrome.networkingPrivate !== undefined);
+};
+
+
 /**
  * Process network interface information.
  * @param {Array.<chrome.networkingPrivate.NetworkProperties>} dt
@@ -92,7 +100,7 @@ ccd.ChromeOSInternetDisconnectedTest.prototype.processNicInfo_ = function(dt) {
     this.isDisconnected_ = true;
   } else {
     for (var i = 0; i < dt.length; i++) {
-      if (dt[i].ConnectionState == 'Connected') {
+      if (dt[i]['ConnectionState'] == 'Connected') {
         this.isDisconnected_ = false;
         break;
       }

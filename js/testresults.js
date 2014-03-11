@@ -24,7 +24,7 @@ goog.require('ccd.TestVerdict');
 ccd.TestResults = function() {
   /**
    * Store test results based upon verdict from individual connectivity tests.
-   * @private {Object.<ccd.TestVerdict, Array.<ccd.TestResult>>}
+   * @private {Object.<!ccd.TestVerdict, !Array.<ccd.TestResult>>}
    */
   this.testResults_ = {};
   this.testResults_[ccd.TestVerdict.NO_PROBLEM] = [];
@@ -57,17 +57,9 @@ ccd.TestResults.prototype.addTestResult = function(testResult) {
  *   returns the array in O(1) time.
  * @param {ccd.TestVerdict} testVerdictType Desired test verdict to return
  *   matching tests.
- * @return {Array.<ccd.TestResult>} Array of test results matching
+ * @return {!Array.<ccd.TestResult>} Array of test results matching
  *   the supplied verdict type.
  */
 ccd.TestResults.prototype.getTestResultsByVerdict = function(testVerdictType) {
-  switch (testVerdictType) {
-    case ccd.TestVerdict.NO_PROBLEM:
-      return this.testResults_[ccd.TestVerdict.NO_PROBLEM];
-    case ccd.TestVerdict.POTENTIAL_PROBLEM:
-      return this.testResults_[ccd.TestVerdict.POTENTIAL_PROBLEM];
-    case ccd.TestVerdict.PROBLEM:
-      return this.testResults_[ccd.TestVerdict.PROBLEM];
-  }
-  return null;
+  return this.testResults_[testVerdictType];
 };

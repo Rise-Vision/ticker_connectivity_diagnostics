@@ -122,6 +122,12 @@ ccd.CaptivePortalDnsTest.prototype.isProblemDetected_ = function() {
 };
 
 
+/** @override */
+ccd.CaptivePortalDnsTest.prototype.canRun = function() {
+  return ccd.util.dnsApiAvailable();
+};
+
+
 /**
  * @override
  */
@@ -145,7 +151,7 @@ ccd.CaptivePortalDnsTest.prototype.analyzeResults = function() {
 /**
  * See chromium/src/chrome/common/extensions/api/experimental_dns.idl for
  *   the definition of ResolveCallbackResolveInfo.
- * @param {chrome.dns.ResolveCallbackResolveInfo} resolverResult
+ * @param {chrome.experimental.dns.ResolveCallbackResolveInfo} resolverResult
  *   DNS query results.
  * @private
  */
@@ -223,9 +229,7 @@ ccd.CaptivePortalDnsTest.prototype.attemptResolution_ = function() {
       chrome.i18n.getMessage('captiveportaldnstest_beginning_resolution') +
       this.numTestsCompleted_ + ' / ' + hostname);
 
-  if (typeof(chrome.dns) !== 'undefined') {
-    chrome.dns.resolve(hostname, this.resolveCallback_.bind(this));
-  }
+  ccd.util.getDnsApi().resolve(hostname, this.resolveCallback_.bind(this));
 };
 
 

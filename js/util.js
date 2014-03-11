@@ -76,3 +76,46 @@ ccd.util.getCcdUserAgent = function() {
 ccd.util.getUserAgent = function() {
   return navigator.userAgent;
 };
+
+
+/**
+ * Determine whether chrome.experimental.dns is available.
+ * @return {boolean} Whether chrome.experimental.dns is available.
+ */
+ccd.util.experimentalDnsApiAvailable = function() {
+  return (chrome.experimental !== undefined &&
+          chrome.experimental.dns !== undefined &&
+          chrome.experimental.dns.resolve !== undefined);
+};
+
+
+/**
+ * Determine whether chrome.dns is available.
+ * @return {boolean} Whether chrome.dns is available.
+ */
+ccd.util.chromeDnsApiAvailable = function() {
+  return (chrome.dns !== undefined &&
+          chrome.dns.resolve !== undefined);
+};
+
+
+/**
+ * Determine whether chrome.experimental.dns is available.
+ * @return {boolean} Whether chrome.experimental.dns is available.
+ */
+ccd.util.dnsApiAvailable = function() {
+  return (ccd.util.experimentalDnsApiAvailable() ||
+          ccd.util.chromeDnsApiAvailable());
+};
+
+
+/**
+ * @return {Object} DNS resolver function.
+ */
+ccd.util.getDnsApi = function() {
+  if (ccd.util.experimentalDnsApiAvailable()) {
+    return chrome.experimental.dns;
+  } else {
+    return chrome.dns;
+  }
+};

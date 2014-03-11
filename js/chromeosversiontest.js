@@ -15,6 +15,7 @@ goog.require('ccd.Test');
 goog.require('ccd.TestId');
 goog.require('ccd.TestResult');
 goog.require('ccd.TestVerdict');
+goog.require('ccd.flags');
 
 
 
@@ -51,7 +52,7 @@ ccd.ChromeOSVersionTest.prototype.parent =
  * @type {number}
  * @const
  */
-ccd.ChromeOSVersionTest.SMALLEST_PERMITTED_CHROMEOS_PLATFORM_NUM = 3912;
+ccd.ChromeOSVersionTest.SMALLEST_PERMITTED_CHROMEOS_PLATFORM_NUM = 4319;
 
 
 /**
@@ -101,6 +102,13 @@ ccd.ChromeOSVersionTest.prototype.analyzeResults = function() {
         chrome.i18n.getMessage('chromeosversiontest_noproblem_record_log') +
         ccd.ChromeOSVersionTest.SMALLEST_PERMITTED_CHROMEOS_PLATFORM_NUM);
   }
+};
+
+
+/** @override */
+ccd.ChromeOSVersionTest.prototype.canRun = function() {
+  return (ccd.util.isChromeOS() &&
+          ccd.flags.RUN_TEST_CHROMEOS_VERSION === true);
 };
 
 

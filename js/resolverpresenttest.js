@@ -40,10 +40,16 @@ ccd.ResolverPresentTest.prototype.parent =
     /** @type {ccd.Test} */ (ccd.Test.prototype);
 
 
+/** @override */
+ccd.ResolverPresentTest.prototype.canRun = function() {
+  return ccd.util.dnsApiAvailable();
+};
+
+
 /**
  * Analyze test results.
  * @see trunk/src/chrome/common/extensions/api/experimental_dns.idl
- * @param {chrome.dns.ResolveCallbackResolveInfo} resolverResult
+ * @param {chrome.experimental.dns.ResolveCallbackResolveInfo} resolverResult
  *   DNS query result.
  */
 ccd.ResolverPresentTest.prototype.analyzeResults = function(resolverResult) {
@@ -75,7 +81,7 @@ ccd.ResolverPresentTest.prototype.analyzeResults = function(resolverResult) {
 
 /**
  * Handle the results of a DNS query.
- * @param {chrome.dns.ResolveCallbackResolveInfo} resolverResult
+ * @param {chrome.experimental.dns.ResolveCallbackResolveInfo} resolverResult
  *   DNS query result.
  * @private
  */
@@ -102,8 +108,5 @@ ccd.ResolverPresentTest.prototype.runTest = function(callbackFnc) {
   var hostname = 'ccd-testing-v4.gstatic.com';
   this.testResult.addLogRecord(
       chrome.i18n.getMessage('resolverpresenttest_gettinghostname') + hostname);
-    
-  if (typeof(chrome.dns) !== 'undefined') {
-    chrome.dns.resolve(hostname, this.resolveCallback_.bind(this));
-  }
+  ccd.util.getDnsApi().resolve(hostname, this.resolveCallback_.bind(this));
 };

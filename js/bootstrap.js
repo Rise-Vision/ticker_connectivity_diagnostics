@@ -11,9 +11,9 @@
 goog.provide('ccd');
 goog.provide('ccd.Bootstrap');
 
-goog.require('ccd.GuiManager');
 goog.require('ccd.flags');
 goog.require('ccd.metrics');
+goog.require('ccd.ui.Controller');
 goog.require('ccd.util');
 
 
@@ -27,16 +27,23 @@ ccd.Bootstrap = function() {
 
   ccd.metrics.recordUserAction('TestSuiteRun');
   ccd.metrics.recordAppVersion(ccd.util.getAppVersion());
-  if (ccd.flags.getFlag('launchSource')) {
-    ccd.metrics.recordLaunchSource(
-        /** @type {string} */ (ccd.flags.getFlag('launchSource')));
-  }
+  ccd.metrics.recordLaunchSource(
+      /** @type {string} */ (ccd.flags.LAUNCH_SOURCE));
+
   /**
-   * @private {ccd.GuiManager}
+   * @private {ccd.ui.Controller}
    */
-  this.guiManager_ = new ccd.GuiManager();
-  this.guiManager_.constructDom();
-  this.guiManager_.runTests();
+  this.uiController_ = null;
+};
+
+
+/**
+ * Launch the application.
+ * @expose
+ */
+ccd.Bootstrap.prototype.launch = function() {
+  this.uiController_ = new ccd.ui.Controller();
+  this.uiController_.launchTests();
 };
 
 
@@ -66,7 +73,18 @@ ccd.Bootstrap.prototype.processFlags_ = function() {
     for (var i = 0; i < keyValuePairs.length; i++) {
       var key = keyValuePairs[i].slice(0, keyValuePairs[i].indexOf('='));
       var value = keyValuePairs[i].slice(keyValuePairs[i].indexOf('=') + 1);
-      ccd.flags.addFlag(key, value);
+
+      if (ccd.flags[key] !== undefined) {
+        if (!isNaN(parseInt(value, 10))) {
+          ccd.flags[key] = parseInt(value, 10);
+        } else if (value.toLowerCase() == 'false') {
+          ccd.flags[key] = false;
+        } else if (value.toLowerCase() == 'true') {
+          ccd.flags[key] = true;
+        } else {
+          ccd.flags[key] = value;
+        }
+      }
     }
   }
 };

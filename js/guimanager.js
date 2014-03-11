@@ -112,6 +112,47 @@ ccd.GuiManager = function() {
    * @private {ccd.UiState}
    */
   this.uiState_ = ccd.UiState.getInstance();
+
+  /**
+   * @private {number}
+   */
+  this.lastTabOrder_ = 0;
+};
+
+
+/**
+ * @param {boolean} show Whether the focus outlines should be shown.
+ * @private
+ */
+ccd.GuiManager.prototype.setShowFocusOutlines_ = function(show) {
+  if (show) {
+    document.body.className = '';
+  } else {
+    document.body.className = 'no-outline';
+  }
+};
+
+
+/**
+ * @param {Event} event The mouse event for the clicking.
+ * @private
+ */
+ccd.GuiManager.prototype.onMouseDown_ = function(event) {
+  this.setShowFocusOutlines_(false);
+};
+
+
+/**
+ * @param {Event} event The key event for the pressing.
+ * @private
+ */
+ccd.GuiManager.prototype.onKeyDown_ = function(event) {
+  if (event.keyCode == 9) {
+    this.setShowFocusOutlines_(true);
+  }
+  if (event.keyCode == 27 && document.activeElement) {
+    document.activeElement.blur();
+  }
 };
 
 
@@ -155,17 +196,34 @@ ccd.GuiManager.prototype.paintTestResultFrame_ = function(testResult) {
  * @private
  */
 ccd.GuiManager.prototype.handleShowLogsClick_ = function(testId, event) {
+  if (event && event.type == 'keyup' && event.keyCode !== 13) {
+    // Key was pressed, but it is not Enter.
+    event.stopPropagation();
+    return;
+  }
   this.uiState_.logsShown();
   var logContainer = document.getElementById(
       'log-container-' + testId);
   var showLogsLink = document.getElementById(
       'show-logs-link-' + testId);
+
+  // Due to tabIndex being present on a DIV or A, clicking on those elements
+  //   will not release the :focus state, meaning there is still an outline.
+  // Listen for clicks and release the :focus by bluring.
+  // @see http://nemisj.com/focusable/
+  // @see http://stackoverflow.com/questions/6203189/
+  if (event && event.type == 'click') {
+    //showLogsLink.blur();
+  }
+
   if (logContainer.className == 'element-hidden') {
     showLogsLink.innerHTML = chrome.i18n.getMessage('test_result_hide_logs');
     logContainer.className = 'test-result-log-container';
+    showLogsLink.setAttribute('aria-expanded', 'true');
   } else {
     showLogsLink.innerHTML = chrome.i18n.getMessage('test_result_show_logs');
     logContainer.className = 'element-hidden';
+    showLogsLink.setAttribute('aria-expanded', 'false');
   }
   event.stopPropagation();
 };
@@ -178,7 +236,21 @@ ccd.GuiManager.prototype.handleShowLogsClick_ = function(testId, event) {
  * @private
  */
 ccd.GuiManager.prototype.toggleShowMoreInformation_ = function(testId, event) {
-  this.uiState_.expandTestResult();
+  if (event && event.type == 'keyup' && event.keyCode !== 13) {
+    // Key was pressed, but it is not Enter.
+    event.stopPropagation();
+    return;
+  }
+
+  // Due to tabIndex being present on a DIV or A, clicking on those elements
+  //   will not release the :focus state, meaning there is still an outline.
+  // Listen for clicks and release the :focus by bluring.
+  // @see http://nemisj.com/focusable/
+  // @see http://stackoverflow.com/questions/6203189/
+  if (event && event.type == 'click') {
+    //document.getElementById('test-result-title-' + testId).blur();
+  }
+
   // Prevent clicking on the logs <textarea> from collapsing the more
   //   information field.
   if (event.srcElement.className == 'test-results-logs-textarea') {
@@ -187,17 +259,24 @@ ccd.GuiManager.prototype.toggleShowMoreInformation_ = function(testId, event) {
   }
 
   var testResultFrameId = 'test-result-frame-' + testId;
+  var testResultTitle = 'test-result-title-' + testId;
   var miDom = document.getElementById(
       'more-info-container-' + testId);
   if (miDom.className == 'element-hidden') {
     miDom.className = 'element-block';
     document.getElementById(testResultFrameId).className =
         'test-results-contents-frame test-results-contents-frame-expanded';
+    document.getElementById('test-result-title-' + testId).
+        setAttribute('aria-expanded', 'true');
   } else {
     miDom.className = 'element-hidden';
     document.getElementById(testResultFrameId).className =
         'test-results-contents-frame';
+    document.getElementById('test-result-title-' + testId).
+        setAttribute('aria-expanded', 'false');
   }
+
+  this.uiState_.expandTestResult();
   event.stopPropagation();
 };
 
@@ -238,13 +317,21 @@ ccd.GuiManager.prototype.paintTestResult_ = function(testResult) {
   // Create Test Title
   var title = document.createElement('div');
   title.className = titleClassName;
+  title.id = 'test-result-title-' + testResult.getTestId();
+  title.tabIndex = ++this.lastTabOrder_;
   title.innerHTML = '<div class="issue-found-title-contents-cell">' +
       '<div class="' + divImageClass + '"></div>' +
       '</div>' +
       '<div class="issue-found-title-contents-cell">' + titleHtml + '</div>';
+  title.setAttribute('aria-expanded', 'false');
+  title.setAttribute('aria-controls', 'more-info-container-' + testResult.getTestId());
   title.addEventListener('click',
       this.toggleShowMoreInformation_.bind(this, testResult.getTestId()),
       false);
+  title.addEventListener('keyup',
+      this.toggleShowMoreInformation_.bind(this, testResult.getTestId()),
+      false);
+
   document.getElementById(testResultFrameId).appendChild(title);
 
   // Create More Information Container
@@ -253,6 +340,9 @@ ccd.GuiManager.prototype.paintTestResult_ = function(testResult) {
   moreInfo.className = 'element-hidden';
 
   moreInfo.addEventListener('click',
+      this.toggleShowMoreInformation_.bind(this, testResult.getTestId()),
+      false);
+  moreInfo.addEventListener('keyup',
       this.toggleShowMoreInformation_.bind(this, testResult.getTestId()),
       false);
   document.getElementById(testResultFrameId).appendChild(moreInfo);
@@ -271,7 +361,13 @@ ccd.GuiManager.prototype.paintTestResult_ = function(testResult) {
   logsTitle.id = 'show-logs-link-' + testResult.getTestId();
   logsTitle.innerHTML = chrome.i18n.getMessage('test_result_show_logs');
   logsTitle.className = 'show-logs-link show-logs-link-a';
+  logsTitle.tabIndex = ++this.lastTabOrder_;
+  logsTitle.setAttribute('aria-expanded', 'false');
+  logsTitle.setAttribute('aria-controls', 'log-container-' + testResult.getTestId());
   logsTitle.addEventListener('click',
+      this.handleShowLogsClick_.bind(this, testResult.getTestId()),
+      false);
+  logsTitle.addEventListener('keyup',
       this.handleShowLogsClick_.bind(this, testResult.getTestId()),
       false);
   logsTitleContainer.appendChild(logsTitle);
@@ -287,6 +383,7 @@ ccd.GuiManager.prototype.paintTestResult_ = function(testResult) {
   var logs = document.createElement('textarea');
   logs.className = 'test-results-logs-textarea';
   logs.readOnly = true;
+  logs.tabIndex = ++this.lastTabOrder_;
   logs.cols = 60;
   logs.rows = 10;
 
@@ -341,6 +438,7 @@ ccd.GuiManager.prototype.fillResultsPage_ = function(testResults) {
   issuesFoundTitleDom.id = 'issues-found-title';
   if (this.testIssuesToDisplay_()) {
     issuesFoundTitleDom.className = 'test-results-contents';
+    issuesFoundTitleDom.setAttribute('role', 'alert');
   } else {
     issuesFoundTitleDom.className = 'element-hidden';
   }
@@ -477,7 +575,7 @@ ccd.GuiManager.prototype.paintNoProblemResults_ = function() {
 
   var noProblemInnerContainer = document.createElement('div');
   noProblemInnerContainer.innerHTML =
-      '<div class="no-problem-result-inner-contents">' +
+      '<div class="no-problem-result-inner-contents" role="alert">' +
       '<div id="no-problem-result-img"></div></div>' +
       '<div class="no-problem-result-inner-contents">' +
       chrome.i18n.getMessage('result_no_connectivity_problems') +
@@ -644,6 +742,8 @@ ccd.GuiManager.prototype.centerAppWindow_ = function() {
  * @private
  */
 ccd.GuiManager.prototype.closeSettingsMenu_ = function() {
+  document.getElementById('top-settings-btn').setAttribute(
+      'aria-expanded', 'false');
   document.getElementById(this.settingsDomId_).className = 'element-hidden';
   document.getElementById('top-settings-btn').className = '';
   this.showSettings_ = false;
@@ -655,6 +755,8 @@ ccd.GuiManager.prototype.closeSettingsMenu_ = function() {
  * @private
  */
 ccd.GuiManager.prototype.openSettingsMenu_ = function() {
+  document.getElementById('top-settings-btn').setAttribute(
+      'aria-expanded', 'true');
   document.getElementById(this.settingsDomId_).className = 'settings-visible';
   document.getElementById('top-settings-btn').className =
       'settings-menu-link-expanded';
@@ -701,6 +803,8 @@ ccd.GuiManager.prototype.showPassingTests_ = function() {
   this.showPassingTestsResults_ = true;
   document.getElementById(this.togglePassingTestsLinkDomId_).innerHTML =
       chrome.i18n.getMessage('setting_hide_passing_test');
+  document.getElementById(this.togglePassingTestsLinkDomId_).
+      setAttribute('aria-expanded', 'true');
 
   if (document.getElementById(this.testsResultsPassingFrameId_) != undefined) {
     document.getElementById(this.testsResultsPassingFrameId_).className = '';
@@ -719,6 +823,8 @@ ccd.GuiManager.prototype.hidePassingTests_ = function() {
   this.showPassingTestsResults_ = false;
   document.getElementById(this.togglePassingTestsLinkDomId_).innerHTML =
       chrome.i18n.getMessage('setting_show_passing_test');
+  document.getElementById(this.togglePassingTestsLinkDomId_).
+      setAttribute('aria-expanded', 'false');
 
   if (document.getElementById(this.testsResultsPassingFrameId_) != undefined) {
     document.getElementById(this.testsResultsPassingFrameId_).className =
@@ -735,6 +841,12 @@ ccd.GuiManager.prototype.hidePassingTests_ = function() {
  * @private
  */
 ccd.GuiManager.prototype.handleShowPassingTestsBtnClick_ = function(event) {
+  if (event && event.type == 'keyup' && event.keyCode !== 13) {
+    // Key was pressed, but it is not Enter.
+    event.stopPropagation();
+    return;
+  }
+
   if (this.showPassingTestsResults_) {
     this.hidePassingTests_();
   } else {
@@ -771,9 +883,27 @@ ccd.GuiManager.prototype.addEventListeners_ = function() {
       addEventListener('click',
                        this.handleShowPassingTestsBtnClick_.bind(this),
                        false);
+
+  document.getElementById(this.togglePassingTestsLinkDomId_).
+      addEventListener('keyup',
+                       this.handleShowPassingTestsBtnClick_.bind(this),
+                       false);
+
+  // Clicking anywhere in the body of the page will close the settings menu.
   document.body.
       addEventListener('click',
                        this.handlePageClickCloseMenu_.bind(this),
+                       false);
+
+  // CL/19222864 as example
+  // Handle focusing with tabIndex
+  document.body.
+      addEventListener('mousedown',
+                       this.onMouseDown_.bind(this),
+                       false);
+  document.body.
+      addEventListener('keydown',
+                       this.onKeyDown_.bind(this),
                        false);
 };
 
@@ -788,11 +918,14 @@ ccd.GuiManager.prototype.constructDom = function() {
       chrome.i18n.getMessage('apptitle') + '</div>' +
       '<div id="header-options-container">' +
       '   <button id="top-settings-btn" ' +
-      '     tabindex="1" />' +
+      '     tabindex="1" aria-label="' +
+              chrome.i18n.getMessage('aria_label_settings') + '"  aria-expanded="false" aria-controls="' + this.settingsDomId_ + '" />' +
       '   <button id="top-maximize-btn" ' +
-      '     tabindex="2" />' +
+      '     tabindex="10" aria-label="' +
+              chrome.i18n.getMessage('aria_label_maximize') + '" />' +
       '   <button id="top-close-btn" ' +
-      '     tabindex="3" />' +
+      '     tabindex="20" aria-label="' +
+              chrome.i18n.getMessage('aria_label_close') + '" />' +
       '</div>' +
       '</div><!-- End ID=headerbar -->' +
 
@@ -810,10 +943,11 @@ ccd.GuiManager.prototype.constructDom = function() {
 
   initialBodyHtml += '<div id="' + this.settingsDomId_ + '" ' +
       'class="element-hidden">' +
-      '<a id="' + this.togglePassingTestsLinkDomId_ + '">' +
+      '<a id="' + this.togglePassingTestsLinkDomId_ + '" tabindex="2" aria-expanded="false" aria-controls"' + this.testsResultsPassingFrameId_ + '">' +
       chrome.i18n.getMessage('setting_show_passing_test') + '</a></div>';
 
   document.getElementById('ccd-app').innerHTML = initialBodyHtml;
+  this.lastTabOrder_ = document.getElementById('top-close-btn').tabIndex + 1;
 
   // STEP 2: Add event listeners to the DOM.
   this.addEventListeners_();

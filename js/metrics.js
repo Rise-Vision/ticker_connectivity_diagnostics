@@ -11,6 +11,7 @@
 goog.provide('ccd.metrics');
 
 
+goog.require('ccd.TestId');
 goog.require('ccd.TestVerdict');
 
 
@@ -26,6 +27,14 @@ ccd.metrics.NAMESPACE_ = 'ConnectivityDiagnostics';
  * @const
  */
 ccd.metrics.USERACTION_ = 'UA';
+
+
+/**
+ * @private {number}
+ * @const
+ * @see #chromium/src/chrome/common/extensions/api/metrics_private.json&l=133
+ */
+ccd.metrics.MAX_MEDIUM_TIME_LENGTH_ = 1000 * 60 * 3;
 
 
 /**
@@ -51,7 +60,8 @@ ccd.metrics.recordUserAction = function(name) {
 ccd.metrics.recordMediumTime = function(metricName, milliseconds) {
   var finalTime = Math.round(milliseconds);
   var fullName = ccd.metrics.NAMESPACE_ + '.' + metricName;
-  if (chrome.metricsPrivate) {
+  if (chrome.metricsPrivate &&
+      finalTime < ccd.metrics.MAX_MEDIUM_TIME_LENGTH_) {
     chrome.metricsPrivate.recordMediumTime(fullName, finalTime);
   }
 };

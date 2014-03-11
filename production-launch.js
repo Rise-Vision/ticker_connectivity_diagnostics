@@ -7,4 +7,5 @@
 
 window.addEventListener('load', function load(event) {
   var app = new ChromeConnectivityDebugger();
+  app.launch();
 }, false);

@@ -104,6 +104,13 @@ ccd.ChromeOSSignalStrengthTest.prototype.runTest = function(callbackFnc) {
 };
 
 
+/** @override */
+ccd.ChromeOSSignalStrengthTest.prototype.canRun = function() {
+  return (ccd.util.isChromeOS() &&
+          chrome.networkingPrivate !== undefined);
+};
+
+
 /**
  * Process network interface information.
  * @param {Array.<chrome.networkingPrivate.NetworkProperties>} nicInfo

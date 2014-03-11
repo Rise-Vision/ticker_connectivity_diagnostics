@@ -12,45 +12,14 @@ goog.provide('ccd.flags');
 
 
 /**
- * Global object for setting and getting application flags passed into the
- *   Chrome app.
+ * @enum {string|number|boolean}
  */
-ccd.flags = {};
-
-
-/**
- * @private {Object.<string, string|number|boolean>}
- */
-ccd.flags.flags_ = {};
-
-
-/**
-  * Add an application flag.
-  * @param {string} name The name of the flag.
-  * @param {string|number|boolean} value The value of the flag.
-  */
-ccd.flags.addFlag = function(name, value) {
-  ccd.flags.flags_[name] = value;
-};
-
-
-/**
- * Get an application flag.
- * @param {string} name The name of the flag to get.
- * @return {string|number|boolean} The value of the flag.
- */
-ccd.flags.getFlag = function(name) {
-  if (ccd.flags.flags_[name] != undefined) {
-    return ccd.flags.flags_[name];
-  } else {
-    return '';
-  }
-};
-
-
-/**
- * Clear all the application flags.
- */
-ccd.flags.clearFlags = function() {
-  ccd.flags.flags_ = {};
+ccd.flags = {
+  LAUNCH_SOURCE: 'OfflineChromeOS',
+  INIT_APP_WIDTH: 676,
+  INIT_APP_HEIGHT: 600,
+  MENU_OPTION_TO_RERUN_TESTS: true,
+  MENU_OPTION_TO_SEND_CHROME_FEEDBACK: true,
+  RUN_TEST_CHROMEOS_VERSION: false,
+  RUN_TEST_CHROME_VERSION: false
 };

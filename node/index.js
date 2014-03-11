@@ -16,12 +16,14 @@ NodeStunTest.newStunRequest = function(host, port, cbFnc, errCbFnc) {
     // Create STUN Client
     var stunClient = stun.connect(port, host);
     stunClient.openedState = true;
+    stunClient.stunPort = port;
+    stunClient.stunHost = host;
     
     // Send STUN Request
     stunClient.request(onRequest);
     
     stunClient.on('response', function(packet){
-        console.log('Received STUN packet:', packet);
+        console.log('Received STUN packet from '+stunClient.stunHost+':'+stunClient.stunPort+' ', packet);
         stunClient.openedState = false;
         stunClient.close();
         cbFnc(packet.attrs[stun.attribute.MAPPED_ADDRESS]);
@@ -29,7 +31,7 @@ NodeStunTest.newStunRequest = function(host, port, cbFnc, errCbFnc) {
 
     stunClient.on('error', function(err){
         if (stunClient.openedState === true) {
-            console.log('Error:', err);
+            console.log('Error binding to '+stunClient.stunHost+':'+stunClient.stunPort+':', err);
             stunClient.close();
             stunClient.openedState = false;
             errCbFnc(err);
@@ -40,7 +42,7 @@ NodeStunTest.newStunRequest = function(host, port, cbFnc, errCbFnc) {
     setTimeout(function(){
         if (stunClient.openedState === true) {
             stunClient.close();
-            console.log('closed STUN client');
+            console.log('closed STUN client to '+stunClient.stunHost+':'+stunClient.stunPort);
             errCbFnc('timedout');
         } else {
             console.log('STUN client already closed');
