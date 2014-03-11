@@ -1,0 +1,526 @@
+{
+  "appname": {
+    "message": "Chrome Connectivity Debugger (Dev)",
+    "description": "Title of the Chrome App name."
+  },
+  "apptitle": {
+    "message": "Connectivity Diagnostics",
+    "description": "HTML Page Title."
+  },
+
+
+  "tests_running_message": {
+    "message": "Running tests. This may take a few minutes...",
+    "description": "Text to inform the user the tests are running."
+  },
+
+
+  "result_no_connectivity_problems": {
+    "message": "Your network connection appears to be operating correctly.",
+    "description": "Tests did not find a problem"
+  },
+  "setting_show_passing_test": {
+    "message": "Show passing tests",
+    "description": "The setting that toggles whether to show passing tests"
+  },
+  "setting_hide_passing_test": {
+    "message": "Hide passing tests",
+    "description": "The setting that toggles whether to show passing tests"
+  },
+  "passing_tests_title": {
+    "message": "Passing Tests",
+    "description": "Page section title for tests that passed"
+  },
+  "test_result_log_test_id": {
+    "message": "Test ID: ",
+    "description": "In the logs for a test, print out the test ID"
+  },
+  "test_result_log_test_verdict": {
+    "message": "Test verdict: ",
+    "description": "In the logs for a test, print out the test verdict"
+  },
+  "test_result_log_verdict_no_problem": {
+    "message": "No problem detected",
+    "description": "In the logs for a test, print out the test verdict"
+  },
+  "test_result_log_verdict_problem": {
+    "message": "Problem detected",
+    "description": "In the logs for a test, print out the test verdict"
+  },
+  "test_result_log_verdict_potential_problem": {
+    "message": "Potential problem detected",
+    "description": "In the logs for a test, print out the test verdict"
+  },
+  "test_result_show_logs": {
+    "message": "Show logs...",
+    "description": "Link to show logs"
+  },
+  "test_result_hide_logs": {
+    "message": "Hide logs...",
+    "description": "Link to hide logs"
+  },
+  "test_result_issue_found": {
+    "message": "Issue Found",
+    "description": "Show a header for when an issue was found"
+  },
+  "test_result_issues_found": {
+    "message": "Issues Found",
+    "description": "Show a header for when issues were found"
+  },
+
+
+  "telnet_log_parsed_tcp_response": {
+    "message": "Received raw data from TCP socket: ",
+    "description": "Log data from TCP socket"
+  },
+  "telnet_log_parsed_response_size": {
+    "message": "Successfully read data from TCP socket with size (bytes): ",
+    "description": "Log received TCP size"
+  },
+  "telnet_log_error_reading_tcp_data": {
+    "message": "Error reading TCP data. Error code: ",
+    "description": "Log error reading TCP data"
+  },
+  "telnet_log_successfully_sent_data": {
+    "message": "Successfully sent data with size (bytes): ",
+    "description": "Log successfully sent TCP data"
+  },
+  "telnet_log_preparing_to_send_data": {
+    "message": "Preparing to send data with size (bytes): ",
+    "description": "Log preparing to send TCP data"
+  },
+  "telnet_log_connection_established": {
+    "message": "TCP connection established with host / port / status code: ",
+    "description": "Log connection established"
+  },
+  "telnet_log_connection_failure": {
+    "message": "TCP connection failed with host / port / status code: ",
+    "description": "Log TCP connection failure"
+  },
+  "telnet_log_connection_failure_unknown": {
+    "message": "Connection failure reason: Unknown",
+    "description": "Log TCP connection failure reason unknown"
+  },
+  "telnet_log_connection_established_successfully": {
+    "message": "TCP connection established successfully with host / port: ",
+    "description": "Log TCP connection established successfully"
+  },
+  "telnet_log_connection_failure_timeout": {
+    "message": "Connection failure reason: Timeout",
+    "description": "Log TCP connection failure due to timeout"
+  },
+  "telnet_log_connection_failure_refused": {
+    "message": "Connection failure reason: Connection refused",
+    "description": "Log TCP connection failure due to refusal"
+  },
+  "telnet_log_socket_created": {
+    "message": "Creating a TCP socket, number / host / port: ",
+    "description": "Log TCP socket created"
+  },
+  "telnet_log_tcp_timeout_setting": {
+    "message": "Setting TCP timeout length (msec): ",
+    "description": "Log TCP timeout setting"
+  },
+
+
+  "chromeinternetdisconnectedtest_problem_title": {
+    "message": "Not connected to the network",
+    "description": "Title for when a problem is found with the Chrome internet connection."
+  },
+  "chromeinternetdisconnectedtest_noproblem_title": {
+    "message": "Internet connection available",
+    "description": "Title for when no problem is found with the Chrome internet connection."
+  },
+  "chromeinternetdisconnectedtest_problem_subtitle": {
+    "message": "Chrome is not connected to a network. Please check your operating system network settings.",
+    "description": "Subtitle for when a problem is found with the Chrome internet connection."
+  },
+  "chromeinternetdisconnectedtest_noproblem_subtitle": {
+    "message": "An Internet connection is available for the Chrome browser.",
+    "description": "Subtitle for when no problem is found with the Chrome internet connection."
+  },
+  "chromeinternetdisconnectedtest_log_connection_status_known": {
+    "message": " Chrome Internet disconnected test returned TCP status code: ",
+    "description": "Logger record for when a TCP connection status code is known in the Chrome internet connection test."
+  },
+  "chromeinternetdisconnectedtest_log_connection_beginning": {
+    "message": " About to attempt TCP connection # / hostname / port : ",
+    "description": "Logger record for when a TCP connection to a specific host and port is about to begin"
+  },
+
+
+  "chromeosinternetdisconnectedtest_problem_title": {
+    "message": "Not connected to the network",
+    "description": "Title for when a problem is found with the ChromeOS internet connection."
+  },
+  "chromeosinternetdisconnectedtest_noproblem_title": {
+    "message": "Internet connection available",
+    "description": "Title for when no problem is found with the ChromeOS internet connection."
+  },
+  "chromeosinternetdisconnectedtest_problem_subtitle": {
+    "message": "This Chromebook is not connected to a network. Please go to the status tray and connect to an available network.",
+    "description": "Subtitle for when a problem is found with the ChromeOS internet connection."
+  },
+  "chromeosinternetdisconnectedtest_noproblem_subtitle": {
+    "message": "An Internet connection is available.",
+    "description": "Subtitle for when no problem is found with the ChromeOS internet connection."
+  },
+  "chromeosinternetdisconnectedtest_log_available_networks": {
+    "message": "Number of available networks detected: ",
+    "description": "Logger record for how many networks chrome.networkingPrivate found."
+  },
+
+
+  "chromeversiontest_problem_title": {
+    "message": "Google Chrome is not the latest version",
+    "description": "Title for when a problem is found with the Chrome version."
+  },
+  "chromeversiontest_noproblem_title": {
+    "message": "Google Chrome is the latest version",
+    "description": "Title for when no problem is found with the Chrome version."
+  },
+  "chromeversiontest_problem_subtitle": {
+    "message": "You are not using the most recent version of Google Chrome. Consequently, you do not have all known bug fixes and you might therefore experience connectivity problems.",
+    "description": "Subtitle for when a problem is found with the Chrome version."
+  },
+  "chromeversiontest_noproblem_subtitle": {
+    "message": "You are using a recent version of Google Chrome and therefore you have all known fixes for connectivity bugs.",
+    "description": "Subtitle for when no problem is found with the Chrome version."
+  },
+  "chromeversiontest_raw_useragent": {
+    "message": "Raw browser user-agent: ",
+    "description": "Raw browser user-agent"
+  },
+  "chromeversiontest_short_browser": {
+    "message": "Browser version number (short): ",
+    "description": "Short browser version number"
+  },
+  "chromeversiontest_full_browser": {
+    "message": "Browser version number (full): ",
+    "description": "Short browser version number"
+  },
+
+
+  "chromeosversiontest_problem_title": {
+    "message": "Chrome OS out of date",
+    "description": "Title for when a problem is found with the ChromeOS version."
+  },
+  "chromeosversiontest_noproblem_title": {
+    "message": "Chrome OS is up to date",
+    "description": "Title for when no problem is found with the ChromeOS version."
+  },
+  "chromeosversiontest_problem_subtitle": {
+    "message": "You are not using the most recent version of Chrome OS. Consequently, you do not have all known bug fixes and you might therefore experience connectivity problems.",
+    "description": "Subtitle for when a problem is found with the ChromeOS version."
+  },
+  "chromeosversiontest_noproblem_subtitle": {
+    "message": "You are using a recent version of Chrome OS and therefore you have all known fixes for connectivity issues.",
+    "description": "Subtitle for when no problem is found with the ChromeOS version."
+  },
+  "chromeosversiontest_problem_record_log": {
+    "message": "Chrome OS version test detected a problem. Chrome OS version is out of date. Minimum version is now: ",
+    "description": "Log record for recording that a problem existed with the ChromeOS version."
+  },
+  "chromeosversiontest_noproblem_record_log": {
+    "message": "Chrome OS version test did not detect a problem. Chrome OS version is up to date. Minimum version is now: ",
+    "description": "Log record for recording that no problem existed with the ChromeOS version."
+  },
+  "chromeosversiontest_raw_useragent": {
+    "message": "Raw browser user-agent: ",
+    "description": "Raw browser user-agent"
+  },
+  "chromeosversiontest_short_platform": {
+    "message": "Short Chrome OS platform number: ",
+    "description": "Short ChromeOS version number"
+  },
+  "chromeosversiontest_full_platform": {
+    "message": "Full Chrome OS platform number: ",
+    "description": "Full ChromeOS version number"
+  },
+
+
+  "resolverpresenttest_problem_title": {
+    "message": "No functioning DNS server available",
+    "description": "Title for when a problem is found with the DNS Resolver Present test."
+  },
+  "resolverpresenttest_noproblem_title": {
+    "message": "DNS server available",
+    "description": "Title for when no problem is found with the DNS Resolver Present test."
+  },
+  "resolverpresenttest_problem_subtitle": {
+    "message": "A DNS server translates a hostname (e.g. www.google.com) into an IP address. A browser must have an IP address to connect to in order to load a website. Chrome is unable to not determine the IP of the website you want to visit because your DNS server is not working.",
+    "description": "Subtitle for when a problem is found with the DNS Resolver Present test."
+  },
+  "resolverpresenttest_noproblem_subtitle": {
+    "message": "Chrome found a DNS server that successfully translated a hostname (e.g. www.google.com) into an IP address.",
+    "description": "Subtitle for when no problem is found with the DNS Resolver Present test."
+  },
+  "resolverpresenttest_gettinghostname": {
+    "message": "Attempting to resolve hostname: ",
+    "description": "Logger record denoting that the resolverpresenttest is about to resolve a hostname"
+  },
+  "resolverpresenttest_testcompleted": {
+    "message": "DNS server returned DNS query results.",
+    "description": "Logger record denoting that the resolverpresenttest is complete"
+  },
+  "resolverpresenttest_testfailed": {
+    "message": "DNS server did not return any object (not even a record DNE entry), so the test did not complete.",
+    "description": "Logger record denoting that the resolverpresenttest failed as the resolver did not return any result (even an error)"
+  },
+  "resolverpresenttest_hostnameresult": {
+    "message": "Hostname resolved to IP address: ",
+    "description": "Logger record denoting the IP result that the DNS resolved the hostname to"
+  },
+  "resolverpresenttest_statuscoderesultsuccess": {
+    "message": "DNS server returned success status code: ",
+    "description": "Logger record denoting the successful DNS query status code result"
+  },
+  "resolverpresenttest_statuscoderesultfailure": {
+    "message": "DNS server returned problem status code: ",
+    "description": "Logger record denoting the failed DNS query status code result"
+  },
+
+
+  "resolverlatencytest_problem_title": {
+    "message": "DNS resolution taking too long",
+    "description": "Title for when a problem is found with the DNS Latency test."
+  },
+  "resolverlatencytest_potentialproblem_title": {
+    "message": "DNS resolution taking longer than average",
+    "description": "Title for when a potential problem is found with the DNS Latency test."
+  },
+  "resolverlatencytest_noproblem_title": {
+    "message": "No delay in DNS resolution",
+    "description": "Title for when no problem is found with the DNS Latency test."
+  },
+  "resolverlatencytest_problem_subtitle": {
+    "message": "A DNS server translates a hostname (e.g. www.google.com) into an IP address. A browser must have an IP address to connect to in order to load a website. The DNS server that performs this translation is taking too long, causing delays in your Internet connection.",
+    "description": "Subtitle for when a problem is found with the DNS Latency test."
+  },
+  "resolverlatencytest_potential_problem_subtitle": {
+    "message": "A DNS server translates a hostname (e.g. www.google.com) into an IP address. A browser must have an IP address to connect to in order to load a website. The DNS server that performs this translation is taking too long, causing delays in your Internet connection.",
+    "description": "Subtitle for when a potential problem is found with the DNS Latency test."
+  },
+  "resolverlatencytest_noproblem_subtitle": {
+    "message": "A DNS server translates a hostname (e.g., google.com) into an IP (e.g., 74.125.228.98). This process is required in order for your  browser to connect to the Internet. Chrome is able to quickly resolve DNS requests using your local resolver, which speeds up the process of loading a page.",
+    "description": "Subtitle for when no problem is found with the DNS Latency test."
+  },
+  "resolverlatencytest_beginning_resolution": {
+    "message": "Attempting to resolve hostname #: ",
+    "description": "Logger record for noting that DNS resolution is beginning."
+  },
+  "resolverlatencytest_queryresult_received": {
+    "message": "Result received for DNS resolution. Test Number / Current Time / Time Taken (ms) / Time Began (ms): ",
+    "description": "Logger record for noting that DNS resolution is beginning."
+  },
+  "resolverlatencytest_total_resolution_time": {
+    "message": "Total DNS resolution time for all tests (ms): ",
+    "description": "Logger record for noting the total DNS resolution time."
+  },
+  "resolverlatencytest_total_hosts_resolved": {
+    "message": "Total DNS hosts resolved: ",
+    "description": "Logger record for noting the total hosts resolved."
+  },
+  "resolverlatencytest_average_resolution_time": {
+    "message": "Average DNS resolution time (ms): ",
+    "description": "Logger record for noting the average DNS resolution time."
+  },
+
+
+  "captiveportaldnstest_problem_title": {
+    "message": "Internet traffic blocked by captive portal (DNS)",
+    "description": "Title for when a problem is found with the DNS Captive Portal test."
+  },
+  "captiveportaldnstest_potential_problem_title": {
+    "message": "Internet traffic may be blocked by captive portal (DNS)",
+    "description": "Title for when a potential problem is found with the DNS Captive Portal test."
+  },
+  "captiveportaldnstest_noproblem_title": {
+    "message": "Internet traffic not blocked by captive portal (DNS)",
+    "description": "Title for when no problem is found with the DNS Captive Portal test."
+  },
+  "captiveportaldnstest_problem_subtitle": {
+    "message": "A captive portal is a website that a network requires its users to view and interact with before being granted access to browse the Internet freely. A captive portal was found on your network, meaning access to the Internet is restricted.",
+    "description": "Subtitle for when a problem is found with the DNS Captive Portal test."
+  },
+  "captiveportaldnstest_potential_problem_subtitle": {
+    "message": "A captive portal is a website that a network requires its users to view and interact with before being granted access to browse the Internet freely. A captive portal appears to be on your network, meaning access to the Internet is probably restricted.",
+    "description": "Subtitle for when a potential problem is found with the DNS Captive Portal test."
+  },
+  "captiveportaldnstest_noproblem_subtitle": {
+    "message": "No captive portal found. A captive portal is a website that a network requires its users to view and interact with before being granted access to browse the Internet freely.",
+    "description": "Subtitle for when no problem is found with the DNS Captive Portal test."
+  },
+  "captiveportaldnstest_beginning_resolution": {
+    "message": "Test # / Test hostname : ",
+    "description": "Logger record for noting a new DNS resolution attempt."
+  },
+  "captiveportaldnstest_no_addr_returned": {
+    "message": " test returned no DNS address field (set to null)",
+    "description": "Logger record for when DNS resolution returns no address field."
+  },
+  "captiveportaldnstest_noresult_code_returned": {
+    "message": " test; no result status code; aborting test due to test failure.",
+    "description": "Logger record for when DNS resolution returns no result status code field."
+  },
+  "captiveportaldnstest_log_statuscode_returned": {
+    "message": " test returned status code: ",
+    "description": "Logger record for DNS response status code."
+  },
+  "captiveportaldnstest_log_address_returned": {
+    "message": " returned resolved DNS address: ",
+    "description": "Logger record for DNS response address."
+  },
+
+
+  "tcpfirewalltest_problem_title": {
+    "message": "Internet traffic blocked by firewall on port ",
+    "description": "Title for when a problem is found with the TCP Firewall test."
+  },
+  "tcpfirewalltest_potentialproblem_title": {
+    "message": "Internet traffic may be blocked by firewall on port ",
+    "description": "Title for when a potential problem is found with the TCP Firewall test."
+  },
+  "tcpfirewalltest_noproblem_title": {
+    "message": "Internet traffic not blocked by firewall on port ",
+    "description": "Title for when no problem is found with the TCP Firewall test."
+  },
+  "tcpfirewalltest_problem_subtitle": {
+    "message": "A restriction is in place on your network for a commonly used Internet connection.",
+    "description": "Subtitle for when a problem is found with the TCP Firewall test."
+  },
+  "tcpfirewalltest_potentialproblem_subtitle": {
+    "message": "A restriction appears to be in place on your network for a commonly used Internet connection.",
+    "description": "Subtitle for when a potential problem is found with the TCP Firewall test."
+  },
+  "tcpfirewalltest_noproblem_subtitle": {
+    "message": "No restrictions were detected on your Internet connection on port ",
+    "description": "Subtitle for when no problem is found with the TCP Firewall test."
+  },
+  "tcpfirewalltest_log_connection_about_begun": {
+    "message": " About to attempt TCP connection # / hostname / port : ",
+    "description": "Logger record for when a TCP connection to a specific host and port is about to begin"
+  },
+  "tcpfirewalltest_log_connection_status_known": {
+    "message": " TCP firewall test returned TCP status code: ",
+    "description": "Logger record for when a TCP connection status code is known"
+  },
+  "tcpfirewalltest_log_analysis_summary": {
+    "message": "Firewall test completed. Test # / hostname / port / number of failed connections: ",
+    "description": "Logger record for summarizing the analysis of the various TCP connections made in a test"
+  },
+  "tcpfirewalltest_log_count_failed_attempt": {
+    "message": "Connection test attempt failed and did not return TCP success status code from the Chrome network stack but instead returned status code: ",
+    "description": "Logger record for denoting failure of a TCP connection"
+  },
+  "tcpfirewalltest_log_dns_broken": {
+    "message": "Detected DNS resolver is unavailable, so we are unable to determine whether a firewall exists",
+    "description": "Logger record for when TCP connections seem to fail due to DNS resolver not working"
+  },
+  "tcpfirewalltest_log_network_disconnected": {
+    "message": "Detected network is unavailable, so we are unable to determine whether a firewall exists",
+    "description": "Logger record for when TCP connections seem to reveal that the network is unavailable"
+  },
+
+
+  "captiveportalhttptest_problem_title": {
+    "message": "Internet traffic blocked by captive portal (HTTP)",
+    "description": "Title for when a problem is found with the HTTP captive portal test."
+  },
+  "captiveportalhttptest_noproblem_title": {
+    "message": "Internet traffic not blocked by captive portal (HTTP)",
+    "description": "Title for when no problem is found with the HTTP captive portal test."
+  },
+  "captiveportalhttptest_problem_subtitle": {
+    "message": "A captive portal is a website that a network requires its users to view and interact with before being granted access to browse the Internet freely. A captive portal was found on your network, meaning unrestricted access to the Internet is blocked.",
+    "description": "Subtitle for when a problem is found with the HTTP captive portal test."
+  },
+  "captiveportalhttptest_noproblem_subtitle": {
+    "message": "No captive portal found. A captive portal is a website that a network requires its users to view and interact with before being granted access to browse the Internet freely.",
+    "description": "Title for when a potential problem is found with the HTTP captive portal test."
+  },
+  "captiveportalhttptest_log_network_error": {
+    "message": "Error in request # / error status: ",
+    "description": "Logger record for when TCP connection breaks an HTTP request"
+  },
+  "captiveportalhttptest_log_response_code": {
+    "message": "Response number / HTTP response code: ",
+    "description": "Logger record for full HTTP response length"
+  },
+  "captiveportalhttptest_log_http_response": {
+    "message": "Response number / HTTP response headers: ",
+    "description": "Logger record for full HTTP response length"
+  },
+  "captiveportalhttptest_log_response_length": {
+    "message": "Request number / full response length: ",
+    "description": "Logger record for when TCP connection breaks an HTTP request"
+  },
+
+
+  "httplatencytest_problem_title": {
+    "message": "Web requests to Google taking too long",
+    "description": "Title for when a problem is found in the HTTP latency test"
+  },
+  "httplatencytest_potentialproblem_title": {
+    "message": "Web requests to Google taking longer than expected",
+    "description": "Title for when a potential problem is found in the HTTP latency test"
+  },
+  "httplatencytest_noproblem_title": {
+    "message": "No delays in receiving responses from Google websites",
+    "description": "Title for when no problem is found in the HTTP latency test"
+  },
+  "httplatencytest_problem_subtitle": {
+    "message": "It is taking longer than it should to receive a response from Google websites, indicating a slow network.",
+    "description": "Subtitle for when a problem is found in the HTTP latency test"
+  },
+  "httplatencytest_potentialproblem_subtitle": {
+    "message": "It is taking a little longer than it should to receive a response from Google websites, indicating a slow network.",
+    "description": "Subtitle for when a potential problem is found in the HTTP latency test"
+  },
+  "httplatencytest_noproblem_subtitle": {
+    "message": "Web requests to Google being received quickly.",
+    "description": "Subtitle for when no problem is found in the HTTP latency test"
+  },
+  "httplatencytest_log_network_error": {
+    "message": "Error in request # / error status: ",
+    "description": "Logger record for when TCP connection breaks an HTTP request"
+  },
+  "httplatencytest_log_average_time": {
+    "message": "Average HTTP response time (ms): ",
+    "description": "Logger record for when TCP connection breaks an HTTP request"
+  },
+  "httplatencytest_log_num_requests": {
+    "message": "Total number of HTTP requests: ",
+    "description": "Logger record for the total number of HTTP requests"
+  },
+  "httplatencytest_log_response_time": {
+    "message": "Total HTTP response time (ms): ",
+    "description": "Logger record for the total HTTP response time"
+  },
+  "httplatencytest_log_response_details": {
+    "message": "HTTP response # / time received (microtimestamp) / elapsed time(ms): ",
+    "description": "Logger record for the details of a specific response"
+  },
+
+
+  "chromeossignalstrengthtest_problem_title": {
+    "message": "Network signal strength low",
+    "description": "Title for when a problem is found in the ChromeOS signal strength"
+  },
+  "chromeossignalstrengthtest_problem_subtitle": {
+    "message": "The signal strength of the WiFi network is weak.",
+    "description": "Subtitle for when a problem is found in the ChromeOS signal strength"
+  },
+  "chromeossignalstrengthtest_noproblem_title": {
+    "message": "Network signal strength strong",
+    "description": "Title for when no problem is found in the ChromeOS signal strength"
+  },
+  "chromeossignalstrengthtest_noproblem_subtitle": {
+    "message": "The signal strength of the WiFi network is strong.",
+    "description": "Subtitle for when no problem is found in the ChromeOS signal strength"
+  },
+  "chromeossignalstrengthtest_log_signal_strength": {
+    "message": "Network signal name / signal strength: ",
+    "description": "Logger record for the signal strength of a ChromeOS NIC connection"
+  }
+}

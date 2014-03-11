@@ -1,0 +1,15 @@
+{
+  "name": "connectivity-tester",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD",
+  "dependencies": {
+    "chrome-app-socket": "~1.1.2",
+    "stun": "0.0.2"
+  }
+}
