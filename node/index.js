@@ -22,16 +22,18 @@ NodeStunTest.newStunRequest = function(host, port, cbFnc, errCbFnc) {
     
     stunClient.on('response', function(packet){
         console.log('Received STUN packet:', packet);
-        stunClient.close();
         stunClient.openedState = false;
+        stunClient.close();
         cbFnc(packet.attrs[stun.attribute.MAPPED_ADDRESS]);
     });
 
     stunClient.on('error', function(err){
-        console.log('Error:', err);
-        stunClient.close();
-        stunClient.openedState = false;
-        errCbFnc(err);
+        if (stunClient.openedState === true) {
+            console.log('Error:', err);
+            stunClient.close();
+            stunClient.openedState = false;
+            errCbFnc(err);
+        }
     });
     
     // Client close after 3sec
