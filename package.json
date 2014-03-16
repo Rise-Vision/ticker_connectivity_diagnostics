@@ -1,0 +1,27 @@
+{
+  "name": "connectivity_diagnostics",
+  "version": "0.0.1",
+  "description": "Connectivity Diagnostics ========================",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bprodoehl/connectivity_diagnostics.git"
+  },
+  "author": "",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/bprodoehl/connectivity_diagnostics/issues"
+  },
+  "dependencies": {
+    "grunt": "~0.4.4",
+    "grunt-contrib-jshint": "~0.9.2",
+    "grunt-contrib-compress": "~0.7.0",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-closure-compiler": "0.0.21",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-text-replace": "~0.3.11"
+  }
+}
