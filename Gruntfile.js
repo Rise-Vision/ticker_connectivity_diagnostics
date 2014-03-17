@@ -85,7 +85,8 @@ module.exports = function(grunt) {
   browserify: {
     dist: {
       files: {
-        'dist/node/bundle.js': ['src/node/index.js']
+        'dist/node/bundle.js': ['src/node/index.js'],
+        'src/node/bundle.js': ['src/node/index.js']
       }
     }
   },
