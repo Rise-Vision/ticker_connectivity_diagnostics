@@ -9,10 +9,17 @@ I have modified it to use Node.js libraries to test STUN (with the help of [Brow
 
 To run the App unpackaged in Chrome, follow these steps:
   1. Download this project's source code to your computer
-  1. Go to "Tools" -> "Extensions"
-  1. Click the "Developer Mode" checkbox
-  1. Click the "Load Unpacked Extension" button, and browse to this project's source code
+  2. Go to "Tools" -> "Extensions"
+  3. Click the "Developer Mode" checkbox
+  4. Click the "Load Unpacked Extension" button, and browse to this project's source code
 
 The app should then run in a new window, without the usual chrome around the window.
 
 To debug the app while it is running, right click anywhere on it and select "Inspect Element".  That should bring up the normal Chrome Developer Tools.
+
+To compile the App, follow these steps:
+  1. Make sure you have [Node.js](http://nodejs.org) installed.
+  2. Install Grunt CLI globally (npm install -g grunt-cli).
+  3. Install all Node dependencies (npm install).
+  4. Install the Closure Compiler, following the instructions [here](https://github.com/gmarty/grunt-closure-compiler#closure-compiler-installation-from-source).
+  5. Build the archive (grunt).
