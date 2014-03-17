@@ -48,7 +48,7 @@ NodeStunTest.newStunRequest = function(host, port, cbFnc, errCbFnc) {
             console.log('STUN client already closed');
         }
     }, 3000);
-}
+};
 
 // also export so we can reach this stuff in Node.js
 exports.NodeStunTest = NodeStunTest;

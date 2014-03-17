@@ -212,9 +212,9 @@ ccd.GuiManager.prototype.handleShowLogsClick_ = function(testId, event) {
   // Listen for clicks and release the :focus by bluring.
   // @see http://nemisj.com/focusable/
   // @see http://stackoverflow.com/questions/6203189/
-  if (event && event.type == 'click') {
+  //if (event && event.type == 'click') {
     //showLogsLink.blur();
-  }
+  //}
 
   if (logContainer.className == 'element-hidden') {
     showLogsLink.innerHTML = chrome.i18n.getMessage('test_result_hide_logs');
@@ -247,9 +247,9 @@ ccd.GuiManager.prototype.toggleShowMoreInformation_ = function(testId, event) {
   // Listen for clicks and release the :focus by bluring.
   // @see http://nemisj.com/focusable/
   // @see http://stackoverflow.com/questions/6203189/
-  if (event && event.type == 'click') {
+  //if (event && event.type == 'click') {
     //document.getElementById('test-result-title-' + testId).blur();
-  }
+  //}
 
   // Prevent clicking on the logs <textarea> from collapsing the more
   //   information field.
