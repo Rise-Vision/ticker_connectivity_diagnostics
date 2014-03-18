@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Switchboard Connectivity Diagnostics",
   "short_name": "Switchboard Connectivity Diagnostics",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "minimum_chrome_version": "31",
   "offline_enabled": true,
   "default_locale": "en",

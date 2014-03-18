@@ -58,9 +58,25 @@ ccd.StunTest = function() {
    */
   this.hostnamesToQuery_ = [];
   this.hostnamesToQuery_.push(['stun.l.google.com', 19302]);
+    
   this.hostnamesToQuery_.push(['stun.l.connectifyswitchboard.com', 3478]);
-  //this.hostnamesToQuery_.push(['doesnotexist.connectifyswitchboard.com', 3479]);
-  //this.hostnamesToQuery_.push(['stun.l.connectifyswitchboard.com', 3479]);
+
+  this.hostnamesToQuery_.push(['sb-fr-paris-1.connectify.me', 3478]);
+  this.hostnamesToQuery_.push(['sb-us-nyc-1.connectify.me', 3478]);
+  this.hostnamesToQuery_.push(['sb-us-nova-1.connectify.me', 3478]);
+  this.hostnamesToQuery_.push(['sb-sg-singapore-1.connectify.me', 3478]);
+  this.hostnamesToQuery_.push(['sb-us-dallas-1.connectify.me', 3478]);
+  this.hostnamesToQuery_.push(['sb-us-chicago-1.connectify.me', 3478]);
+  this.hostnamesToQuery_.push(['sb-us-sanjose-1.connectify.me', 3478]);
+  this.hostnamesToQuery_.push(['sb-us-la-1.connectify.me', 3478]);
+  this.hostnamesToQuery_.push(['sb-br-saopaulo-1.connectify.me', 3478]);
+  this.hostnamesToQuery_.push(['sb-au-sydney-1.connectify.me', 3478]);
+  this.hostnamesToQuery_.push(['sb-jp-tokyo-1.connectify.me', 3478]);
+  this.hostnamesToQuery_.push(['sb-in-chennai-1.connectify.me', 3478]);
+    
+  // uncomment these if you want to see a failure
+  //this.hostnamesToQuery_.push(['this-will-not-resolve.connectifyswitchboard.com', 3478]);
+  //this.hostnamesToQuery_.push(['stun.l.connectifyswitchboard.com', 80]);
 };
 
 /** @type {ccd.Test} */
@@ -78,7 +94,7 @@ ccd.StunTest.prototype.parent =
 var stuntest_noproblem_title = 'STUN traffic not blocked';
 var stuntest_noproblem_subtitle = 'No restrictions on STUN traffic were detected on your Internet connection';
 var stuntest_problem_title = 'STUN traffic is being blocked';
-var stuntest_problem_subtitle = 'Your Internet connection appears to be blocking STUN traffic';
+var stuntest_problem_subtitle = 'Your Internet connection appears to be blocking STUN traffic. STUN is used to help establish UDP connectivity to your machine.';
 
 /**
  * Analyze the test results to determine whether STUN is allowed.
@@ -99,8 +115,8 @@ ccd.StunTest.prototype.analyzeResults = function() {
   }
 };
 
-var stuntest_log_response_length = 'Received your public IP from the STUN server: ';
-var stuntest_log_response_code = 'It appears that your public IP is ';
+var stuntest_log_response_server = 'Received your public IP from the STUN server at ';
+var stuntest_log_response_result = 'It appears that your public IP is ';
 
 /**
  * Receive the full response of the STUN request.
@@ -115,9 +131,12 @@ ccd.StunTest.prototype.responseReceived_ = function(resultData) {
     this.fullResponseLength_.push(mappedAddress.length);
     this.responseCode_.push(validMappedAddress);
 
-    this.testResult.addLogRecord(stuntest_log_response_length +
-      this.numTestsCompleted_ + ' / ' + mappedAddress.length);
-    this.testResult.addLogRecord(stuntest_log_response_code + mappedAddress);
+    var reqNum = this.numTestsCompleted_;
+    this.testResult.addLogRecord(stuntest_log_response_server +
+      this.hostnamesToQuery_[reqNum][0] + ':' + 
+      this.hostnamesToQuery_[reqNum][1] +
+      ' (' + (reqNum + 1) + ' / ' + mappedAddress.length + ')');
+    //this.testResult.addLogRecord(stuntest_log_response_result + mappedAddress);
 
     this.numTestsCompleted_++;
   }
@@ -144,9 +163,12 @@ var stuntest_log_network_error = 'A network error occurred that prevented the te
  * @private
  */
 ccd.StunTest.prototype.requestError_ = function(errorStatus) {
+  var reqNum = this.numTestsCompleted_;
   this.testResult.addLogRecord(
       stuntest_log_network_error +
-      this.numTestsCompleted_ + ' / ' + errorStatus);
+      'server: ' + this.hostnamesToQuery_[reqNum][0] + ':' +
+                   this.hostnamesToQuery_[reqNum][1] + ', ' +
+      'err code: ' + errorStatus);
 
   this.fullResponseLength_.push(null);
   this.responseCode_.push(false);
@@ -161,10 +183,10 @@ ccd.StunTest.prototype.requestError_ = function(errorStatus) {
  */
 ccd.StunTest.prototype.stunRequest_ = function() {
   var reqNum = this.numTestsCompleted_;
-  var socket = NodeStunTest.newStunRequest(this.hostnamesToQuery_[reqNum][0],
-                                           this.hostnamesToQuery_[reqNum][1],
-                                           this.responseReceived_.bind(this),
-                                           this.requestError_.bind(this));
+  NodeStunTest.newStunRequest(this.hostnamesToQuery_[reqNum][0],
+                              this.hostnamesToQuery_[reqNum][1],
+                              this.responseReceived_.bind(this),
+                              this.requestError_.bind(this));
   // what to do with this.testResult?
 };
 
