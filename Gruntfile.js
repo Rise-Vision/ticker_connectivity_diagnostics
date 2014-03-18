@@ -4,6 +4,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    appManifest: grunt.file.readJSON('src/manifest.json'),
     clean: {
       dist: [
         'dist',
@@ -94,7 +95,7 @@ module.exports = function(grunt) {
   compress: {
       main: {
         options: {
-          archive: 'archive.zip'
+          archive: '<%= pkg.name %>-<%= appManifest.version %>.zip'
         },
         files: [
           {expand: true, cwd: 'dist/', src: ['**'], dest: './'}

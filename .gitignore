@@ -1,5 +1,5 @@
 dist
 node_modules
-archive.zip
+*.zip
 src/node/bundle.js
 
