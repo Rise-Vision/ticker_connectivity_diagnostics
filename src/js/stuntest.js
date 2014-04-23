@@ -57,7 +57,7 @@ ccd.StunTest = function() {
    * @private {Array.<string>}
    */
   this.hostnamesToQuery_ = [];
-  this.hostnamesToQuery_.push(['stun.l.google.com', 19302]);
+  //this.hostnamesToQuery_.push(['stun.l.google.com', 19302]);
     
   this.hostnamesToQuery_.push(['stun.l.connectifyswitchboard.com', 3478]);
 
