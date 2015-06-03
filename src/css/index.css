@@ -318,6 +318,7 @@ body.no-focus-outline * {
   margin: 1em;
   font-size: 80%;
   font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  white-space: pre-wrap;
 }
 
 .show-logs-link-a {

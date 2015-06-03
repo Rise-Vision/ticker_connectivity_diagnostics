@@ -1,11 +1,11 @@
 {
   "appname": {
-    "message": "Chrome Connectivity Debugger (Dev)",
-    "description": "Title of the Chrome App name."
+    "message": "Rise Ticker Network Diagnostics Utility",
+    "description": "Rise Ticker Network Diagnostics Utility"
   },
   "apptitle": {
-    "message": "Connectivity Diagnostics",
-    "description": "HTML Page Title."
+    "message": "Rise Ticker Network Diagnostics Utility",
+    "description": "Rise Ticker Network Diagnostics Utility"
   },
 
 
@@ -458,27 +458,27 @@
 
 
   "httplatencytest_problem_title": {
-    "message": "Web requests to Google taking too long",
+    "message": "Web requests to Rise Ticker sites taking too long",
     "description": "Title for when a problem is found in the HTTP latency test"
   },
   "httplatencytest_potentialproblem_title": {
-    "message": "Web requests to Google taking longer than expected",
+    "message": "Web requests to Rise Ticker sites taking longer than expected",
     "description": "Title for when a potential problem is found in the HTTP latency test"
   },
   "httplatencytest_noproblem_title": {
-    "message": "No delays in receiving responses from Google websites",
+    "message": "No delays in receiving responses from Rise Ticker websites",
     "description": "Title for when no problem is found in the HTTP latency test"
   },
   "httplatencytest_problem_subtitle": {
-    "message": "It is taking longer than it should to receive a response from Google websites, indicating a slow network.",
+    "message": "It is taking longer than it should to receive a response from Rise Ticker websites, indicating a slow network.",
     "description": "Subtitle for when a problem is found in the HTTP latency test"
   },
   "httplatencytest_potentialproblem_subtitle": {
-    "message": "It is taking a little longer than it should to receive a response from Google websites, indicating a slow network.",
+    "message": "It is taking a little longer than it should to receive a response from Rise Ticker websites, indicating a slow network.",
     "description": "Subtitle for when a potential problem is found in the HTTP latency test"
   },
   "httplatencytest_noproblem_subtitle": {
-    "message": "Web requests to Google being received quickly.",
+    "message": "Web requests to Rise Ticker websites being received quickly.",
     "description": "Subtitle for when no problem is found in the HTTP latency test"
   },
   "httplatencytest_log_network_error": {

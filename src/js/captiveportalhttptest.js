@@ -60,10 +60,22 @@ ccd.CaptivePortalHttpTest = function() {
    * @private {Array.<string>}
    */
   this.hostnamesToQuery_ = [];
-  for (var i = 0; i < 3; i++) {
-    this.hostnamesToQuery_.push(
-        ccd.util.getRandomString(8) + '-ccd-testing-v4.metric.gstatic.com');
-  }
+  this.hostnamesToQuery_.push('ticker.risedisplay.com');
+  this.hostnamesToQuery_.push('s3.amazonaws.com');
+  this.hostnamesToQuery_.push('contentfinancial2.appspot.com');
+  this.hostnamesToQuery_.push('contentsports.appspot.com');
+  this.hostnamesToQuery_.push('content-news.appspot.com');
+  this.hostnamesToQuery_.push('connect.risevision.com');
+  this.hostnamesToQuery_.push('54.172.249.25');
+  
+  this.hostnamesToQueryData_ = [];
+  this.hostnamesToQueryData_.push('/generate_204');
+  this.hostnamesToQueryData_.push('/risetickerapp/layouts/fullcolor/16h_financial_stacked_logos.xsl');
+  this.hostnamesToQueryData_.push('/generate_204');
+  this.hostnamesToQueryData_.push('/generate_204');
+  this.hostnamesToQueryData_.push('/generate_204');
+  this.hostnamesToQueryData_.push('/generate_204');
+  this.hostnamesToQueryData_.push('/generate_204');
 };
 
 
@@ -87,23 +99,28 @@ ccd.CaptivePortalHttpTest.prototype.parent =
 ccd.CaptivePortalHttpTest.prototype.analyzeResults = function() {
   // Start by assuming that there is no HTTP captive portal.
   this.testResult.setTestVerdict(ccd.TestVerdict.NO_PROBLEM);
-  this.testResult.setTitle(
-      chrome.i18n.getMessage('captiveportalhttptest_noproblem_title'));
-  this.testResult.setSubtitle(
-      chrome.i18n.getMessage('captiveportalhttptest_noproblem_subtitle'));
 
   // Check whether Google's /generate_204 returns anything but a 204 status.
   // If so, there is probably a HTTP captive portal.
+  var errorDetails = '';
+  var numIssues = 0;
   for (var i = 0; i < this.hostnamesToQuery_.length; i++) {
-    if (this.responseCode_[i] != 204) {
-      this.testResult.setTestVerdict(ccd.TestVerdict.PROBLEM);
-      this.testResult.setTitle(
-          chrome.i18n.getMessage('captiveportalhttptest_problem_title'));
-      this.testResult.setSubtitle(
-          chrome.i18n.getMessage('captiveportalhttptest_problem_subtitle'));
-      return;
+    if (this.responseCode_[i] < 200 || this.responseCode_[i] >= 400) {
+      numIssues++;
+      errorDetails = errorDetails + '#' + i + " - Unable to connect to " + this.hostnamesToQuery_[i] + " on port 80\n" ;
     }
   }
+  if(numIssues == 0) {
+    this.testResult.setTestVerdict(ccd.TestVerdict.NO_PROBLEM);
+    this.testResult.setTitle(chrome.i18n.getMessage('captiveportalhttptest_noproblem_title'));
+    this.testResult.setSubtitle(chrome.i18n.getMessage('captiveportalhttptest_noproblem_subtitle'));
+  } else {
+    this.testResult.setTestVerdict(ccd.TestVerdict.PROBLEM);
+    this.testResult.setTitle(chrome.i18n.getMessage('captiveportalhttptest_problem_title'));
+    this.testResult.setSubtitle(chrome.i18n.getMessage('captiveportalhttptest_problem_subtitle') + '\n\n' + errorDetails);
+  }
+  
+  return;
 };
 
 
@@ -227,7 +244,7 @@ ccd.CaptivePortalHttpTest.prototype.requestHostname_ = function() {
                                80, this.testResult);
   socket.setCompletedCallbackFnc(this.responseReceived_.bind(this));
   socket.setFailureCallbackFnc(this.requestError_.bind(this));
-  socket.setPlainTextDataToSend('GET /generate_204 HTTP/1.1\n' +
+  socket.setPlainTextDataToSend('GET ' + this.hostnamesToQueryData_[reqNum] + ' HTTP/1.1\n' +
       'Host: ' + this.hostnamesToQuery_[reqNum] + '\n' +
       'Connection: close\n' +
       'User-Agent: ' + ccd.util.getCcdUserAgent() + '\n' +

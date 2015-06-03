@@ -48,14 +48,24 @@ ccd.HttpLatencyTest = function() {
   this.testStartMilsec_ = 0;
 
   /**
+   * Time to respond
+   * @private {!Array.<number>}
+   */
+  this.timeToRespond_ = [];
+  
+  /**
    * Hostnames to query in an attempt to determine HTTP latency.
    * @private {!Array.<string>}
    */
   this.hostnamesToQuery_ = [];
-  for (var i = 0; i < 3; i++) {
-    this.hostnamesToQuery_.push(
-        ccd.util.getRandomString(8) + '-ccd-testing-v4.metric.gstatic.com');
-  }
+  this.hostnamesToQuery_.push('ticker.risedisplay.com');
+  this.hostnamesToQuery_.push('s3.amazonaws.com');
+  this.hostnamesToQuery_.push('contentfinancial2.appspot.com');
+  this.hostnamesToQuery_.push('contentsports.appspot.com');
+  this.hostnamesToQuery_.push('content-news.appspot.com');
+  this.hostnamesToQuery_.push('connect.risevision.com');
+  this.hostnamesToQuery_.push('54.172.249.25');
+  
 };
 
 
@@ -90,7 +100,7 @@ ccd.HttpLatencyTest.NO_PROBLEM_LATENCY_MILSEC_ = 400;
  * @private {number}
  * @const
  */
-ccd.HttpLatencyTest.POTENTIAL_PROBLEM_LATENCY_MILSEC_ = 500;
+ccd.HttpLatencyTest.POTENTIAL_PROBLEM_LATENCY_MILSEC_ = 600;
 
 
 /**
@@ -110,23 +120,22 @@ ccd.HttpLatencyTest.prototype.analyzeResults = function() {
   this.testResult.addLogRecord(
       chrome.i18n.getMessage('httplatencytest_log_average_time') + avgTime);
 
-  if (avgTime < ccd.HttpLatencyTest.NO_PROBLEM_LATENCY_MILSEC_) {
-    this.testResult.setTitle(
-        chrome.i18n.getMessage('httplatencytest_noproblem_title'));
-    this.testResult.setSubtitle(
-        chrome.i18n.getMessage('httplatencytest_noproblem_subtitle'));
+  var errorDetails = '';
+  var numIssues = 0;
+  for (var i = 0; i < this.hostnamesToQuery_.length; i++) {
+    console.log("server: " + this.hostnamesToQuery_[i] + " timeToRespond_: " + this.timeToRespond_[i]);
+    if (this.timeToRespond_[i] > ccd.HttpLatencyTest.POTENTIAL_PROBLEM_LATENCY_MILSEC_) {
+      numIssues++;
+      errorDetails = errorDetails + '#' + i + " - Web requests to " + this.hostnamesToQuery_[i] + " taking " + this.timeToRespond_[i] + "ms. Expected time is " + ccd.HttpLatencyTest.POTENTIAL_PROBLEM_LATENCY_MILSEC_ + "ms\n" ;
+    }
+  }
+  if(numIssues == 0) {
+    this.testResult.setTitle(chrome.i18n.getMessage('httplatencytest_noproblem_title'));
+    this.testResult.setSubtitle(chrome.i18n.getMessage('httplatencytest_noproblem_subtitle'));
     this.testResult.setTestVerdict(ccd.TestVerdict.NO_PROBLEM);
-  } else if (avgTime < ccd.HttpLatencyTest.POTENTIAL_PROBLEM_LATENCY_MILSEC_) {
-    this.testResult.setTitle(
-        chrome.i18n.getMessage('httplatencytest_potentialproblem_title'));
-    this.testResult.setSubtitle(
-        chrome.i18n.getMessage('httplatencytest_potentialproblem_subtitle'));
-    this.testResult.setTestVerdict(ccd.TestVerdict.POTENTIAL_PROBLEM);
   } else {
-    this.testResult.setTitle(
-        chrome.i18n.getMessage('httplatencytest_problem_title'));
-    this.testResult.setSubtitle(
-        chrome.i18n.getMessage('httplatencytest_problem_subtitle'));
+    this.testResult.setTitle(chrome.i18n.getMessage('httplatencytest_problem_title'));
+    this.testResult.setSubtitle(chrome.i18n.getMessage('httplatencytest_problem_subtitle') + '\n\n' + errorDetails);
     this.testResult.setTestVerdict(ccd.TestVerdict.PROBLEM);
   }
 };
@@ -142,12 +151,13 @@ ccd.HttpLatencyTest.prototype.responseReceived_ = function(resultData) {
   var currMilliseconds = (new Date).getTime();
   var millisecondsTaken = currMilliseconds - this.testStartMilsec_;
   this.totalTimeToRespond_ += millisecondsTaken;
-
+  this.timeToRespond_.push(millisecondsTaken);
+  
   this.testResult.addLogRecord(
       chrome.i18n.getMessage('httplatencytest_log_response_details') +
       this.numTestsCompleted_ + ' / ' +
       currMilliseconds + ' / ' + millisecondsTaken);
-
+  
   this.numTestsCompleted_++;
   window.clearTimeout(this.timeoutId_);
   if (this.numTestsCompleted_ < this.hostnamesToQuery_.length) {

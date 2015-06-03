@@ -1,19 +1,19 @@
 {
-  "name": "connectivity_diagnostics",
-  "version": "0.0.3",
-  "description": "Connectivity Diagnostics ========================",
+  "name": "ticker_connectivity_diagnostics",
+  "version": "0.0.2",
+  "description": "Rise Ticker Network Diagnostics Utility",
   "main": "Gruntfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bprodoehl/connectivity_diagnostics.git"
+    "url": "https://github.com/rise-vision/ticker-connectivity_diagnostics.git"
   },
   "author": "",
   "license": "BSD",
   "bugs": {
-    "url": "https://github.com/bprodoehl/connectivity_diagnostics/issues"
+    "url": "https://github.com/rise-vision/ticker-connectivity_diagnostics/issues"
   },
   "dependencies": {
     "grunt": "~0.4.4",

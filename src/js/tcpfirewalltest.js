@@ -69,13 +69,9 @@ ccd.TcpFirewallTest = function(port, testId) {
    * Array of hostnames to test.
    * @private {!Array.<string>}
    */
-  this.hostnamesToTest_ = ['www.google.com', 'mail.google.com',
-                           'drive.google.com', 'accounts.google.com',
-                           'plus.google.com', 'groups.google.com'];
-  for (var i = 0; i < 3; i++) {
-    this.hostnamesToTest_.push(
-        ccd.util.getRandomString(8) + '-ccd-testing-v4.metric.gstatic.com');
-  }
+  this.hostnamesToTest_ = ['ticker.risedisplay.com', 's3.amazonaws.com', 'contentfinancial2.appspot.com',
+                           'contentsports.appspot.com', 'content-news.appspot.com',
+                           'connect.risevision.com', '54.172.249.25'];
 };
 
 
@@ -138,12 +134,14 @@ ccd.TcpFirewallTest.RESPONSE_CODES_TO_RETRY_ = [
  */
 ccd.TcpFirewallTest.prototype.analyzeResults = function() {
   var numFailedConnections = 0;
+  var errorDetails = '';
   for (var i = 0; i < this.hostnamesToTest_.length; i++) {
     if (this.connectionStatusCodes_[i] !==
         ccd.Telnet.TcpConnStatus.SUCCESS) {
       this.testResult.addLogRecord('#' + i +
           chrome.i18n.getMessage('tcpfirewalltest_log_count_failed_attempt') +
           this.connectionStatusCodes_[i]);
+      errorDetails = errorDetails + '#' + i + " - Unable to connect to " + this.hostnamesToTest_[i] + " on port " + this.portToTest_ + ". Error code " + this.connectionStatusCodes_[i] + "\n" ;
       numFailedConnections++;
     }
   }
@@ -171,7 +169,7 @@ ccd.TcpFirewallTest.prototype.analyzeResults = function() {
         chrome.i18n.getMessage('tcpfirewalltest_problem_title') +
         this.portToTest_);
     this.testResult.setSubtitle(
-        chrome.i18n.getMessage('tcpfirewalltest_problem_subtitle'));
+        chrome.i18n.getMessage('tcpfirewalltest_problem_subtitle') + '\n\n' + errorDetails);
   } else {
     // A firewall probably exists.
     this.testResult.setTestVerdict(ccd.TestVerdict.POTENTIAL_PROBLEM);
@@ -179,7 +177,7 @@ ccd.TcpFirewallTest.prototype.analyzeResults = function() {
         chrome.i18n.getMessage('tcpfirewalltest_potentialproblem_title') +
         this.portToTest_);
     this.testResult.setSubtitle(
-        chrome.i18n.getMessage('tcpfirewalltest_potentialproblem_subtitle'));
+        chrome.i18n.getMessage('tcpfirewalltest_potentialproblem_subtitle') + '\n\n' + errorDetails);
   }
 
   this.testResult.addLogRecord(

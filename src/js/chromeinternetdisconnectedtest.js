@@ -58,11 +58,7 @@ ccd.ChromeInternetDisconnectedTest = function() {
    * @private {Array.<string>}
    * @const
    */
-  this.hostnamesToTest_ = [];
-  for (var i = 0; i < 2; i++) {
-    this.hostnamesToTest_.push(
-        ccd.util.getRandomString(10) + '-ccd-testing-v4.metric.gstatic.com');
-  }
+  this.hostnamesToTest_ = ['contentfinancial2.appspot.com'];
 };
 
 

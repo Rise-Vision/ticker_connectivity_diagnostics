@@ -366,7 +366,7 @@ ccd.Telnet.prototype.onConnectedCallback_ = function(resultStatus) {
     // Socket open, data converted to binary, ready to send it.
     this.write_();
   }
-
+  this.testResult_.addLogRecord('going to write to host: ' + this.host_ + ' Data: ' + this.strDataToSend_);
   this.stringToArrayBuffer_(this.strDataToSend_, receiveArrBuffer_.bind(this));
 };
 

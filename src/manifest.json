@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Switchboard Connectivity Diagnostics",
-  "short_name": "Switchboard Connectivity Diagnostics",
+  "name": "Rise Ticker Network Diagnostics Utility",
+  "short_name": "Rise Ticker Network Diagnostics Utility",
   "version": "0.0.3",
   "minimum_chrome_version": "31",
   "offline_enabled": true,
@@ -21,8 +21,13 @@
      "udp-send-to:*:19302"
    ]},
    "clipboardWrite",
-   "http://*.google.com/*",
-   "https://*.google.com/*"
+   "http://*.risedisplay.com/*",
+   "http://s3.amazon.com/*",
+   "https://contentfinancial2.appspot.com/*",
+   "https://contentsports.appspot.com/*",
+   "https://content-news.appspot.com/*",
+   "https://connect.risevision.com/*",
+   "https://54.172.249.25/*"
   ],
   "app": {
     "background": {

@@ -24,7 +24,7 @@ goog.require('ccd.PingGatewayTest');
 goog.require('ccd.ResolverLatencyTest');
 goog.require('ccd.ResolverPresentTest');
 goog.require('ccd.TcpFirewallTest');
-goog.require('ccd.StunTest');
+//goog.require('ccd.StunTest');
 goog.require('ccd.TestId');
 goog.require('ccd.TestResults');
 goog.require('ccd.metrics');
@@ -119,8 +119,8 @@ ccd.TestsManager.TEST_MAP_[ccd.TestId.NIC_SIGNAL_STRENGTH] =
     ccd.ChromeOSSignalStrengthTest;
 ccd.TestsManager.TEST_MAP_[ccd.TestId.PING_GATEWAY] =
     ccd.PingGatewayTest;
-ccd.TestsManager.TEST_MAP_[ccd.TestId.CONNECTIFY_STUN] =
-    ccd.StunTest;
+//ccd.TestsManager.TEST_MAP_[ccd.TestId.CONNECTIFY_STUN] =
+//    ccd.StunTest;
 
 
 /**

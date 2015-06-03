@@ -1,7 +1,7 @@
-Connectivity Diagnostics
+Rise Ticker Network Diagnostics Utility
 ========================
 
-Connectivity Diagnostics is a Chrome App to debug various network connectivity issues.
+Rise Ticker Network Diagnostics Utility is a Chrome App to debug various network connectivity issues.
 
 It is a fork of the Connectivity Diagnostics tool included in Chromium and Chromium OS ([available here](https://chromium.googlesource.com/chromiumos/platform/assets/+/master/connectivity_diagnostics/))
 
