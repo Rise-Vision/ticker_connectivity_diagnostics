@@ -214,7 +214,18 @@ ccd.CaptivePortalHttpTest.prototype.requestError_ = function(errorStatus) {
   this.fullResponseLength_.push(null);
   this.responseCode_.push(errorStatus);
   this.numTestsCompleted_++;
-  this.responseReceived_('');
+  window.clearTimeout(this.timeoutId_);
+  if (this.numTestsCompleted_ < this.hostnamesToQuery_.length) {
+    if (ccd.TestConfVars.XHR_SLEEP_MILSEC > 0) {
+      this.timeoutId_ = setTimeout(this.requestHostname_.bind(this),
+                                   ccd.TestConfVars.XHR_SLEEP_MILSEC);
+    } else {
+      this.requestHostname_();
+    }
+  } else {
+    this.analyzeResults();
+    this.executeCallback();
+  }
 };
 
 
