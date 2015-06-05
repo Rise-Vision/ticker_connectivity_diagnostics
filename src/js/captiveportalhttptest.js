@@ -61,19 +61,19 @@ ccd.CaptivePortalHttpTest = function() {
    */
   this.hostnamesToQuery_ = [];
   this.hostnamesToQuery_.push('ticker.risedisplay.com');
+  this.hostnamesToQuery_.push('riseticker.appspot.com');
   this.hostnamesToQuery_.push('s3.amazonaws.com');
   this.hostnamesToQuery_.push('contentfinancial2.appspot.com');
-  this.hostnamesToQuery_.push('contentsports.appspot.com');
-  this.hostnamesToQuery_.push('content-news.appspot.com');
+  this.hostnamesToQuery_.push('www.datacallrise.net');
+  this.hostnamesToQuery_.push('news.risedisplay.com');
   this.hostnamesToQuery_.push('connect.risevision.com');
-  this.hostnamesToQuery_.push('54.172.249.25');
   
   this.hostnamesToQueryData_ = [];
   this.hostnamesToQueryData_.push('/generate_204');
+  this.hostnamesToQueryData_.push('/generate_204');
   this.hostnamesToQueryData_.push('/risetickerapp/layouts/fullcolor/16h_financial_stacked_logos.xsl');
   this.hostnamesToQueryData_.push('/generate_204');
-  this.hostnamesToQueryData_.push('/generate_204');
-  this.hostnamesToQueryData_.push('/generate_204');
+  this.hostnamesToQueryData_.push('/crossdomain.xml');
   this.hostnamesToQueryData_.push('/generate_204');
   this.hostnamesToQueryData_.push('/generate_204');
 };

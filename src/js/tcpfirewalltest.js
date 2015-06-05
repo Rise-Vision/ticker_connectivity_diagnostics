@@ -25,7 +25,7 @@ goog.require('ccd.TestVerdict');
  * @constructor
  * @extends {ccd.Test}
  */
-ccd.TcpFirewallTest = function(port, testId) {
+ccd.TcpFirewallTest = function(port, hostnamesToTest, testId) {
   this.testResult = new ccd.TestResult(testId);
 
   /**
@@ -69,9 +69,7 @@ ccd.TcpFirewallTest = function(port, testId) {
    * Array of hostnames to test.
    * @private {!Array.<string>}
    */
-  this.hostnamesToTest_ = ['ticker.risedisplay.com', 's3.amazonaws.com', 'contentfinancial2.appspot.com',
-                           'contentsports.appspot.com', 'content-news.appspot.com',
-                           'connect.risevision.com', '54.172.249.25'];
+  this.hostnamesToTest_ = hostnamesToTest;
 };
 
 

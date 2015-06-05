@@ -19,6 +19,7 @@ goog.require('ccd.ChromeVersionTest');
 goog.require('ccd.HttpFirewallTest');
 goog.require('ccd.HttpLatencyTest');
 goog.require('ccd.HttpsFirewallTest');
+goog.require('ccd.Connect8041FirewallTest');
 goog.require('ccd.InternetDisconnectedTest');
 goog.require('ccd.PingGatewayTest');
 goog.require('ccd.ResolverLatencyTest');
@@ -111,6 +112,8 @@ ccd.TestsManager.TEST_MAP_[ccd.TestId.FIREWALL_80] =
     ccd.HttpFirewallTest;
 ccd.TestsManager.TEST_MAP_[ccd.TestId.FIREWALL_443] =
     ccd.HttpsFirewallTest;
+ccd.TestsManager.TEST_MAP_[ccd.TestId.FIREWALL_8041] =
+    ccd.Connect8041FirewallTest;
 ccd.TestsManager.TEST_MAP_[ccd.TestId.RESOLVER_LATENCY] =
     ccd.ResolverLatencyTest;
 ccd.TestsManager.TEST_MAP_[ccd.TestId.HTTP_LATENCY] =

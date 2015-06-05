@@ -8,7 +8,7 @@
  */
 
 
-goog.provide('ccd.HttpFirewallTest');
+goog.provide('ccd.Connect8041FirewallTest');
 
 goog.require('ccd.TcpFirewallTest');
 goog.require('ccd.TestId');
@@ -20,28 +20,26 @@ goog.require('ccd.TestId');
  * @constructor
  * @extends {ccd.Test}
  */
-ccd.HttpFirewallTest = function() {};
+ccd.Connect8041FirewallTest = function() {};
 
 
 /** @type {ccd.Test} */
-ccd.HttpFirewallTest.prototype = new ccd.Test();
+ccd.Connect8041FirewallTest.prototype = new ccd.Test();
 
 
 /** @type {function(new:ccd.Test)} */
-ccd.HttpFirewallTest.prototype.constructor = ccd.Test;
+ccd.Connect8041FirewallTest.prototype.constructor = ccd.Test;
 
 
 /** @type {ccd.Test} */
-ccd.HttpFirewallTest.prototype.parent =
+ccd.Connect8041FirewallTest.prototype.parent =
     /** @type {ccd.Test} */ (ccd.Test.prototype);
 
 
 /** @override */
-ccd.HttpFirewallTest.prototype.runTest = function(callbackFnc) {
-  var hostnamesToTest = ['ticker.risedisplay.com', 'riseticker.appspot.com', 's3.amazonaws.com', 'contentfinancial2.appspot.com',
-                           'www.datacallrise.net', 'news.risedisplay.com',
-                           'connect.risevision.com'];
+ccd.Connect8041FirewallTest.prototype.runTest = function(callbackFnc) {
+  var hostnamesToTest = ['connect.risevision.com'];
                            
-  var firewallTest = new ccd.TcpFirewallTest(80, hostnamesToTest, ccd.TestId.FIREWALL_80);
+  var firewallTest = new ccd.TcpFirewallTest(8041, hostnamesToTest, ccd.TestId.FIREWALL_8041);
   firewallTest.runTest(callbackFnc);
 };
