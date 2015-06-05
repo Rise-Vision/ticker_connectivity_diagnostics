@@ -38,6 +38,10 @@ ccd.HttpsFirewallTest.prototype.parent =
 
 /** @override */
 ccd.HttpsFirewallTest.prototype.runTest = function(callbackFnc) {
-  var firewallTest = new ccd.TcpFirewallTest(443, ccd.TestId.FIREWALL_443);
+  var hostnamesToTest = ['ticker.risedisplay.com', 'riseticker.appspot.com', 's3.amazonaws.com', 'contentfinancial2.appspot.com',
+                           'www.datacallrise.net', 'news.risedisplay.com',
+                           'connect.risevision.com'];
+                           
+  var firewallTest = new ccd.TcpFirewallTest(443, hostnamesToTest, ccd.TestId.FIREWALL_443);
   firewallTest.runTest(callbackFnc);
 };

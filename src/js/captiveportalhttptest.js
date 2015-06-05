@@ -61,19 +61,19 @@ ccd.CaptivePortalHttpTest = function() {
    */
   this.hostnamesToQuery_ = [];
   this.hostnamesToQuery_.push('ticker.risedisplay.com');
+  this.hostnamesToQuery_.push('riseticker.appspot.com');
   this.hostnamesToQuery_.push('s3.amazonaws.com');
   this.hostnamesToQuery_.push('contentfinancial2.appspot.com');
-  this.hostnamesToQuery_.push('contentsports.appspot.com');
-  this.hostnamesToQuery_.push('content-news.appspot.com');
+  this.hostnamesToQuery_.push('www.datacallrise.net');
+  this.hostnamesToQuery_.push('news.risedisplay.com');
   this.hostnamesToQuery_.push('connect.risevision.com');
-  this.hostnamesToQuery_.push('54.172.249.25');
   
   this.hostnamesToQueryData_ = [];
   this.hostnamesToQueryData_.push('/generate_204');
+  this.hostnamesToQueryData_.push('/generate_204');
   this.hostnamesToQueryData_.push('/risetickerapp/layouts/fullcolor/16h_financial_stacked_logos.xsl');
   this.hostnamesToQueryData_.push('/generate_204');
-  this.hostnamesToQueryData_.push('/generate_204');
-  this.hostnamesToQueryData_.push('/generate_204');
+  this.hostnamesToQueryData_.push('/crossdomain.xml');
   this.hostnamesToQueryData_.push('/generate_204');
   this.hostnamesToQueryData_.push('/generate_204');
 };
@@ -214,7 +214,18 @@ ccd.CaptivePortalHttpTest.prototype.requestError_ = function(errorStatus) {
   this.fullResponseLength_.push(null);
   this.responseCode_.push(errorStatus);
   this.numTestsCompleted_++;
-  this.responseReceived_('');
+  window.clearTimeout(this.timeoutId_);
+  if (this.numTestsCompleted_ < this.hostnamesToQuery_.length) {
+    if (ccd.TestConfVars.XHR_SLEEP_MILSEC > 0) {
+      this.timeoutId_ = setTimeout(this.requestHostname_.bind(this),
+                                   ccd.TestConfVars.XHR_SLEEP_MILSEC);
+    } else {
+      this.requestHostname_();
+    }
+  } else {
+    this.analyzeResults();
+    this.executeCallback();
+  }
 };
 
 

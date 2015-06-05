@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Rise Ticker Network Diagnostics Utility",
   "short_name": "Rise Ticker Network Diagnostics Utility",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "minimum_chrome_version": "31",
   "offline_enabled": true,
   "default_locale": "en",
@@ -15,6 +15,7 @@
      "tcp-connect:*:443",
      "tcp-connect:*:80",
      "tcp-connect:*:25",
+     "tcp-connect:*:8041",
      "udp-bind:*",
      "udp-send-to:*:53",
      "udp-send-to:*:3478",
@@ -26,8 +27,7 @@
    "https://contentfinancial2.appspot.com/*",
    "https://contentsports.appspot.com/*",
    "https://content-news.appspot.com/*",
-   "https://connect.risevision.com/*",
-   "https://54.172.249.25/*"
+   "https://connect.risevision.com/*"
   ],
   "app": {
     "background": {
